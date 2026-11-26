@@ -1,0 +1,24 @@
+[project]
+name = "momo-autolabel"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi",
+  "uvicorn[standard]",
+  "pydantic>=2",
+  "google-genai",
+  "boto3",
+]
+
+[dependency-groups]
+dev = ["pytest", "ruff", "mypy", "httpx"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
