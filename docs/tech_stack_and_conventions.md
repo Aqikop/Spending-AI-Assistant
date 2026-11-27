@@ -1,6 +1,6 @@
 # MoMo Auto Spending Categorization: Tech Stack and Conventions (Draft v1)
 
-> Companion to `agent_context.md`, `agent_io_spec.md` and `architecture.md`. Covers the tech stack, design patterns, folder layout and codebase rules. All data is simulated for the contest demo.
+> Companion to `agent_context.md`, `agent_io_spec.md` and `Workflow_draft.md` (which replaces `architecture.md`). Matches `workload_plan_draft.md`. Covers the tech stack, design patterns, folder layout and codebase rules. All data is simulated for the contest demo.
 
 ---
 
@@ -10,7 +10,8 @@
 - Hard deadline: qualifying round closes Dec 3. Fewer moving parts beats elegance.
 - LLM cost must stay at zero. Use a cheap, fast model from Gemini free tier or AWS Bedrock free tier. If limits cause problems, revisit.
 - Judges open a hosted link and may also run the zip locally without any API key.
-- Open item 8.1 (shape of the AI step) is undecided. The design keeps all three options open (section 7).
+- Open item 8.1 (shape of the AI step): the working assumption is option 2, a tool call, to be confirmed in the Day 1 sync. Section 7 shows what changes under the other options.
+- There is no rules-based fallback. If AI is unavailable, nothing is labeled and the UI asks the user to try again.
 
 Free-tier terms for both providers change. Check the Bedrock console and the Gemini docs for the current models, limits and expiry before relying on them.
 
@@ -24,7 +25,7 @@ Free-tier terms for both providers change. Check the Bedrock console and the Gem
 | API | FastAPI + Pydantic v2 | Typed schemas double as the I/O contract from `agent_io_spec.md` |
 | Database | SQLite | Zero ops, fits the per-session sandbox |
 | Frontend | React + Vite + Tailwind CSS, in its own `frontend/` folder | AI writes it and one teammate owns it. The build output is served by FastAPI, so there is still one URL. |
-| LLM | Behind `LLMGateway`: Gemini (free tier) and Bedrock, cheap fast model on both | Provider chain with fallback, see section 6 |
+| LLM | Behind `LLMGateway`: Gemini (free tier) and Bedrock, cheap fast model on both | Provider chain that ends in an "AI unavailable" error, see section 6 |
 | Tests | pytest | The four seeded scenarios are the acceptance tests |
 | Tooling | uv, ruff, mypy, Docker; Node and npm for the frontend only | One-command run for `replay` mode |
 | Deploy | One container on a small VM or App Runner | Single URL for judges |
@@ -45,12 +46,13 @@ Free-tier terms for both providers change. Check the Bedrock console and the Gem
 ```
 app/
   api/            routes.py, deps.py            # FastAPI, session handling
-  services/       labeling_service.py           # Facade, the only entry for the API
+  services/       labeling_service.py, advice_service.py   # Facades, the only entry for the API
   pipeline/       chain.py, router.py, memory.py, evidence.py, guard.py
-  engines/        base.py, live.py, replay.py, rules.py, factory.py
+  engines/        base.py, live.py, replay.py, tools.py, factory.py
+  advice/         tables.py, validator.py, generator.py   # Flow 2 (advice)
   llm/            gateway.py, cache.py, budget.py, providers/{gemini.py,bedrock.py}
-  domain/         categories.py, models.py, states.py   # enums and Pydantic models, no I/O
-  repositories/   transactions.py, memory.py, crowd.py, merchants.py
+  domain/         categories.py, models.py, states.py, errors.py   # enums, Pydantic models, exceptions, no I/O
+  repositories/   transactions.py, memory.py, crowd.py, merchants.py, users.py, vouchers.py
   config.py       # all thresholds and env vars
   main.py         # create_app: router + static mount of frontend/dist
 data/seed/        merchants, MCC table, crowd aggregates, scenarios
@@ -62,7 +64,7 @@ frontend/         # React + Vite + Tailwind, owned by the frontend teammate
 README.md
 ```
 
-Dependencies point inward only: `api -> services -> pipeline/engines -> domain/repositories`. `llm` is used only by `engines/live.py`.
+Dependencies point inward only: `api -> services -> pipeline/engines/advice -> domain/repositories`. `llm` is used only by `engines/live.py` and `advice/generator.py`.
 
 ---
 
@@ -71,17 +73,15 @@ Dependencies point inward only: `api -> services -> pipeline/engines -> domain/r
 | Pattern | Where | Purpose |
 |---|---|---|
 | Chain of Responsibility | Router -> User memory -> Evidence -> Decision -> Guard | Early exits. Each handler finalizes the transaction or passes it on. |
-| Strategy | `DecisionEngine` implementations: `LiveEngine`, `ReplayEngine`, `RulesEngine`. Also `LLMProvider`: `GeminiProvider`, `BedrockProvider` | Run modes and providers are swaps, not scattered `if`s |
-| Factory (simple) | `build_engine(RUN_MODE)` | One place reads the env var |
+| Strategy | `DecisionEngine`: `LiveEngine`, `ReplayEngine`. `AdviceGenerator`: `LiveAdviceGenerator`, `ReplayAdviceGenerator`. `LLMProvider`: `GeminiProvider`, `BedrockProvider` | Run modes and providers are swaps, not scattered `if`s |
+| Factory (simple) | `build_engine(RUN_MODE)`, `build_advice_generator(RUN_MODE)` | One place reads the env var |
 | Builder | `EvidenceBundleBuilder` | Bundle has many optional parts |
-| Facade | `LabelingService` | Routes call one method and do not know the pipeline order |
+| Facade | `LabelingService` (Flow 1), `AdviceService` (Flow 2) | Routes call one method and do not know the pipeline order |
 | Proxy / Decorator | Cache, daily budget cap, retry around the LLM provider | Cross-cutting concerns stay out of decision code |
 
-**Deferred until after open item 8.1:** Observer (the `on_labeled(transaction)` hook) and Null Object (a no-op listener). Nothing subscribes to the hook until the Phase 2 budget engine, so neither is built in the core. Add both together when Phase 2 starts.
+**Deliberately skipped:** State pattern (an enum plus a transition table is enough for 4 states), Command, Singleton, Abstract Factory, and Observer with Null Object (Flow 2 reads labeled transactions with a query, so no `on_labeled` hook is needed). Judges reading the code will notice over-engineering.
 
-**Deliberately skipped:** State pattern (an enum plus a transition table is enough for 4 states), Command, Singleton, Abstract Factory. Judges reading the code will notice over-engineering.
-
-If option 2 of item 8.1 is chosen, add a plain dict tool registry (name to function). It does not need to be a formal pattern.
+Option 2 of item 8.1 adds a plain dict tool registry (name to function) in `engines/tools.py`. It does not need to be a formal pattern.
 
 ---
 
@@ -91,7 +91,7 @@ If option 2 of item 8.1 is chosen, add a plain dict tool registry (name to funct
 
 1. Layers are `api -> services -> pipeline -> domain/repositories`. No upward imports.
 2. `domain` and the evidence builder are pure functions with no I/O.
-3. The AI step is the only non-deterministic component and sits behind one interface: `DecisionEngine.decide(bundle) -> Decision`.
+3. The AI step is the only non-deterministic component and sits behind one interface: `DecisionEngine.decide(session_id, bundle) -> Decision`.
 4. The UI lives in `frontend/` and has no business logic. It calls the API in section 12, renders `Decision` objects and sends taps.
 5. Every model call goes through `LLMGateway`. Nothing else imports a provider SDK.
 
@@ -99,9 +99,9 @@ If option 2 of item 8.1 is chosen, add a plain dict tool registry (name to funct
 
 6. Pydantic models are the single source of truth for the evidence bundle and the decision output. No raw dicts across layer boundaries.
 7. Categories live in one enum. `allowed_categories` is generated from it, never retyped.
-8. **The LLM proposes, code decides.** All thresholds (score cutoffs 0.80 and 0.50, min senders N, agreement X) live in `config.py`. Only the policy guard assigns the final state.
+8. **The LLM proposes, code decides.** All thresholds (score cutoffs 0.80 and 0.50, min senders N, agreement X) live in `config.py`. Only the policy guard assigns the final state, and it reads crowd numbers from the DB, not from the model's answer. The same holds for advice: code validates every advice before it reaches the UI (section 12.3, `validate_advice`).
 9. Privacy is structural. The bundle schema has no field that can hold raw messages from other users. The sender name is stripped in the builder, before the AI boundary.
-10. Validate LLM output against the schema. On failure, retry once, then fall back to `UNCLASSIFIED`. Never crash the feed.
+10. Validate LLM output against the schema. On failure, retry once, then raise `AIUnavailableError` (clean error code, nothing saved). Never crash the feed.
 11. Low confidence forces `category = null`. Enforced in the guard and covered by a test.
 12. A user tap enters crowd aggregates only through the promotion rule, never directly.
 
@@ -109,8 +109,8 @@ If option 2 of item 8.1 is chosen, add a plain dict tool registry (name to funct
 
 13. No secrets in the repo or the zip. Config comes from env vars only. `replay` mode runs with zero keys.
 14. Every decision stores `reason` and `clues_used`. The side panel reads them from there.
-15. Per-session sandbox: every read and write of user memory, crowd overlay and transactions is scoped by `session_id`. Reset deletes it. Seed tables are read-only and shared.
-16. The gateway enforces a daily call cap from config. When the cap is hit, the engine falls through to `RulesEngine`.
+15. Per-session sandbox: every read and write of user memory, crowd overlay, profile and transactions is scoped by `session_id`. Reset deletes it. Seed tables are read-only and shared.
+16. The gateway enforces a daily call cap from config. When the cap is hit, or every provider fails, it raises `AIUnavailableError`. The route returns a clear error code, nothing is saved as a label and the UI shows a retry. There is no rules-based fallback: a guessed label is worse than a pending one.
 
 ### 5.4 Quality
 
@@ -141,7 +141,7 @@ Before implementing:
 **Minimum code that solves the problem. Nothing speculative.**
 
 - No features beyond what was asked.
-- No abstractions for single-use code. *Project exception:* the patterns in section 4 are approved (Chain, Strategy, Factory, Builder, Facade, Proxy/Decorator), as are the optional `tool_trace` and `proposed_action` fields on `Decision` and the routes and functions listed in section 12. The `on_labeled` hook and Null Object are deferred until Phase 2 and are not built in the core. Do not add others without a stated reason.
+- No abstractions for single-use code. *Project exception:* the patterns in section 4 are approved (Chain, Strategy, Factory, Builder, Facade, Proxy/Decorator), as are the optional `used_tool`, `tool_trace` and `proposed_action` fields on `Decision` and the routes and functions listed in section 12. There is no `on_labeled` hook and no Null Object: Flow 2 reads labeled transactions with a query. Do not add others without a stated reason.
 - No "flexibility" or "configurability" that wasn't requested. *Project exception:* thresholds and env vars listed in section 9 live in `config.py` by design. Do not add new keys beyond that list without a stated reason.
 - No error handling for impossible scenarios.
 - If you write 200 lines and it could be 50, rewrite it.
@@ -186,7 +186,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 #### How these apply to this project
 
 - **The design is the baseline.** The project exceptions in "Simplicity first" cover the section 4 patterns and the section 9 config keys. Anything beyond them (a new pattern, a new interface, a new config key) needs a stated reason before it is added.
-- **Seams are built, not extended.** The `tool_trace` and `proposed_action` fields on `Decision` exist because the design needs them for open item 8.1. The `on_labeled` hook and its Null Object listener are deferred until after 8.1 (section 4). Do not add further "just in case" hooks.
+- **Seams are built, not extended.** The `used_tool`, `tool_trace` and `proposed_action` fields on `Decision` exist because the design needs them for open item 8.1. The `on_labeled` hook was dropped (section 4). Do not add further "just in case" hooks.
 - **Success criteria are the scenario tests.** Each build-order step in section 10 should start from a failing test (clear, weak, conflicting, cold start, plus unit tests for the guard rules) and end when it passes in `replay` mode.
 - **Surgical changes protect the contract.** Changes to the Pydantic models, the category enum or `config.py` thresholds are never a side effect of another task. Make them in their own commit and update `agent_io_spec.md` if the contract changes.
 - **Surface, don't guess, on open items.** When a task touches something listed in section 11, the AI states the assumption it is making and asks rather than silently picking a value.
@@ -198,20 +198,23 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 **LLMGateway** is a decorator chain in front of every call:
 
 ```
-cache (by bundle hash) -> daily budget cap -> provider chain -> rules fallback
+cache (by bundle hash) -> daily budget cap -> provider chain -> AI unavailable
 ```
 
-- **Provider chain:** Gemini free tier first, then Bedrock free tier, then `RulesEngine`. Each sits behind the same `LLMProvider` interface. If one is rate-limited or errors, the next takes over. A judge never sees a crash.
+- **Provider chain:** Gemini free tier first, then Bedrock free tier, then an `AIUnavailableError`. Each provider sits behind the same `LLMProvider` interface. If one is rate-limited or errors, the next takes over. If all fail, the judge sees a clear "AI unavailable, try again" state, never a crash and never a guessed label.
 - **Model choice:** a cheap, fast model on each provider (a Flash-class model on Gemini, a small/lite-class model on Bedrock). Exact model IDs live in `config.py`, not in code. Confirm availability in your account.
-- **Cache:** key is a hash of the whole bundle with amount and time bucketed. Repeat clicks cost nothing.
-- **Pre-warm:** `scripts/prewarm.py` runs the four seeded scenarios once at deploy and stores the results. Scenario buttons then use zero live quota. This is the same data `replay` mode uses.
+- **Cache:** key is a hash of the whole bundle with amount and time bucketed. Repeat clicks cost nothing. Advice uses a hash of its summary.
+- **Pre-warm:** `scripts/prewarm.py` runs the four seeded scenarios and the first-load advice once at deploy and stores the results. Scenario buttons then use zero live quota. This is the same data `replay` mode uses.
 - **Small calls:** the bundle is a few hundred tokens. Request JSON output with the schema, set a low `max_output_tokens`.
+- **Call count:** option 2 can use up to 2 calls per transaction, and each advice request uses 1 (more on a retry). The cache, pre-warm and the daily cap cover both. Re-check the free-tier numbers once the tool loop works.
 - **Keep the LLM in the loop:** the contest requires AI as a core component. Do not skip the LLM when evidence looks clear. Use it for the decision and the `reason` text.
 - **Revisit trigger:** if the cheap model gives unreliable JSON or poor decisions on the seeded scenarios, or free limits block testing, move to a larger model or revisit the provider choice.
 
 ---
 
 ## 7. How open item 8.1 affects the design
+
+Working assumption from `workload_plan_draft.md` (decision 1): **option 2**, one tool (`get_receiver_fingerprint`), at most one tool call per transaction. Confirm in the Day 1 sync. The table shows what changes under each option.
 
 | | Option 1: single call | Option 2: tool call | Option 3: agent picks action |
 |---|---|---|---|
@@ -225,12 +228,12 @@ cache (by bundle hash) -> daily budget cap -> provider chain -> rules fallback
 
 Seams that keep every option open:
 
-- `DecisionEngine.decide(bundle) -> Decision` is the only interface. Option 2's loop lives inside an engine implementation.
-- `Decision` already has two optional fields, `tool_trace` and `proposed_action`. Both stay empty under option 1.
+- `DecisionEngine.decide(session_id, bundle) -> Decision` is the only interface. Option 2's loop lives inside an engine implementation.
+- `Decision` carries `used_tool`, `tool_trace` and `proposed_action`. All stay empty under option 1, and `proposed_action` is only used under option 3.
 - The guard computes the final state in code, whichever option is picked.
 - The gateway cache key covers the whole bundle, so option 2's tool results are cached too.
 
-Whichever option is chosen, the naming in slides and README must match what the system does.
+Under option 2 the AI decides whether to call a tool, so "AI agent" is accurate. Slides, README and video use the same term and the same state names.
 
 ---
 
@@ -239,9 +242,9 @@ Whichever option is chosen, the naming in slides and README must match what the 
 | Mode | Used by | AI step |
 |---|---|---|
 | `live` | Hosted demo | Real LLM via `LLMGateway` |
-| `replay` | Judge running the zip locally | Precomputed outputs for seeded scenarios, `RulesEngine` for custom input |
+| `replay` | Judge running the zip locally | Precomputed outputs for the seeded scenarios and the first-load advice. Custom input returns `AI_REQUIRED` |
 
-Selected by one env var, `RUN_MODE`. Never put an API key in the zip. The README states plainly that custom transactions in `replay` use the rules fallback, not the LLM.
+Selected by one env var, `RUN_MODE`. Never put an API key in the zip. The README states plainly that custom transactions in `replay` need AI and return an "AI required" message. There is no rules fallback.
 
 ---
 
@@ -258,32 +261,37 @@ Selected by one env var, `RUN_MODE`. Never put an API key in the zip. The README
 | `MIN_AGREEMENT_HIGH` | 0.60 |
 | `PROMOTION_MIN_SENDERS`, `PROMOTION_MIN_AGREEMENT` | lowered for the demo, stated in README |
 | `UNCLASSIFIED_AGING_DAYS` | N, to be decided |
+| `ADVICE_MIN_LABELED` | N, to be decided |
+| `ADVICE_MAX_UNCLASSIFIED_SHARE` | to be decided |
+| `ADVICE_MAX_VOUCHERS` | 3 |
 
 ---
 
 ## 10. Build order and ownership of files
 
+Dates and owners per step are in `workload_plan_draft.md`.
+
 0. Backend skeleton: the stubs in section 12, all bodies empty, so the frontend teammate can start against the contract.
-1. Seed data and pipeline lookup paths, no AI: `domain`, `repositories`, `pipeline/router.py`, `pipeline/memory.py`.
-2. Evidence builder and decision step: `pipeline/evidence.py`, `engines/`, `llm/`.
-3. Policy guard and the four scenarios: `pipeline/guard.py`, `tests/scenarios/`.
-4. Tap loop, per-session sandbox, reset: `services/`, `api/`, and `frontend/` (frontend teammate).
-5. `replay` mode and `prewarm.py`.
-6. Deploy, README, then the 1-page guide, slides and video.
-7. Phase 2: add the `on_labeled` hook and a Null Object listener (deferred, see section 4), then the budget engine through it, only if time allows before Dec 3.
+1. Seed data and the deterministic path, no AI: `domain`, `repositories`, `pipeline/router.py`, `pipeline/memory.py`, sessions.
+2. Evidence builder, `LLMGateway` and the decision step with its one tool: `pipeline/evidence.py`, `llm/`, `engines/`.
+3. Policy guard and the four scenarios: `pipeline/guard.py`, `tests/scenarios/`. Tune on live runs.
+4. Tap loop, pending batch, aging, reset: `services/`, `api/`, and `frontend/` (frontend teammate).
+5. Flow 2: `advice/`, `services/advice_service.py`, `/advice`, `/vouchers`, `/profile`.
+6. `replay` mode and `prewarm.py` (four scenarios plus the first-load advice).
+7. Deploy and feature freeze, then README, 1-page guide, slides and video.
 
 ---
 
 ## 11. Open items
 
-- Open item 8.1: AI step shape (section 7).
-- Endpoint list and response shapes in section 12 to be confirmed with the frontend teammate.
-- Where the sender's name comes from for `strip_sender_name` (the input JSON has only `user_id`).
+- Open item 8.1: option 2 is the working assumption, to be confirmed in the Day 1 sync.
+- Endpoint list and response shapes in section 12 (including `/advice`, `/vouchers`, `/profile`) to be confirmed with the frontend teammate.
+- Where the UI reads the current monthly income: only `PUT /profile` exists, so either add `GET /profile` or return the profile with another response.
+- `agent_io_spec.md` must be updated: drop `own_label_for_receiver`, add `used_tool`, and add `receiver_id` to the bundle's transaction block (needed by the tool).
 - Exact free-tier models and limits on Gemini and Bedrock.
 - Minimum `distinct_senders`, agreement level and score cutoffs, tuned on the seeded data.
-- Whether `SUGGESTED` stays a separate action or becomes a flag on `AUTO_LABELED`.
-- Whether to drop `own_label_for_receiver` from the bundle (always null at the AI step).
 - N days before `UNCLASSIFIED` moves to Other.
+- Minimum labeled transactions and maximum unclassified share for advice.
 - Real transaction input format and which merchant and MCC fields MoMo holds.
 - Privacy review of aggregated crowd evidence before any real deployment.
 
@@ -293,17 +301,17 @@ Selected by one env var, `RUN_MODE`. Never put an API key in the zip. The README
 
 The backend owner defines the interface. The frontend teammate codes against it. **Every route handler and function body below stays empty (`...`) for now.** Signatures, models and names are the contract. FastAPI generates the OpenAPI page at `/docs` from these, so the frontend can read the shapes there. These functions and routes are the approved interface list for rule "No abstractions for single-use code" in section 5.5.
 
-Not stubbed on purpose: the `on_labeled` hook and Null Object (deferred, section 4) and `GET /budget` (Phase 2).
+Not stubbed on purpose: `GET /budget` and the budget alert (out of scope, the advice flow replaces it). There is no `on_labeled` hook (section 4).
 
 ### 12.1 Models (in `domain/models.py`, no I/O)
 
 | Model | Holds | Source |
 |---|---|---|
 | `TransactionIn` | Raw transaction JSON | `agent_context.md` section 5 |
-| `EvidenceBundle` | Clues built by code | `agent_io_spec.md` section 2 |
+| `EvidenceBundle` | Clues built by code, including `receiver_id` for the tool (code side only) | `agent_io_spec.md` section 2 |
 | `CrowdStats` | `distinct_senders`, `label_distribution`, `typical_amount_range`, `peak_hours`, `message_keywords` | `agent_io_spec.md` section 2 |
-| `Decision` | Category, confidence, score, action, reason, `clues_used`, alternatives, buttons, optional `tool_trace` and `proposed_action` | `agent_io_spec.md` section 3 |
-| `LabeledTransaction` | Transaction, final state, final category, `Decision` | `states.py` for the four states |
+| `Decision` | Category, confidence, score, action, reason, `clues_used`, alternatives, buttons, optional `used_tool`, `tool_trace` and `proposed_action` | `agent_io_spec.md` section 3 |
+| `LabeledTransaction` | Transaction, final state, final category, `is_suggested`, `Decision` | `states.py` for the four states |
 | `TransactionDetailOut` | `LabeledTransaction` plus its `EvidenceBundle` (side panel) | New |
 | `PendingItemOut` | Unclassified transaction, `suggested_buttons`, receiver sender count | New |
 | `CategoryTotalOut` | Category, total amount, count | New |
@@ -311,7 +319,19 @@ Not stubbed on purpose: the `on_labeled` hook and Null Object (deferred, section
 | `LabelIn` | `transaction_id`, `category` (a tap) | New |
 | `AgingIn` | `days` (demo fast-forward) | New |
 | `HealthOut` | Status, `run_mode` | New |
+| `ErrorOut` | `code` (`AI_UNAVAILABLE` or `AI_REQUIRED`), `message` | New |
+| `ProfileIn` | `monthly_income` | New |
+| `ProfileOut` | `display_name`, `monthly_income` | New |
+| `VoucherOut` | Voucher id, title, category, `why` text | New |
+| `CategoryRow` | Category, total, share of income, change vs last month, `cuttable` flag | New |
+| `AdviceOut` | `status` (`ok` or `not_enough_data`), category table (`CategoryRow` list), advice items, up to 3 vouchers | New |
+| `AdviceSummary` | Internal: the numbers the advice text must match | New, never sent to the UI |
+| `AdviceDraft` | Internal: the AI's advice before validation | New, never sent to the UI |
 | `PipelineContext` | Internal: session id, transaction, bundle, decision, result | New, never sent to the UI |
+
+Fixed costs (not cuttable): Housing & Rent, Bills & Utilities, Health & Education. Defined once in `domain/categories.py` and used for the `cuttable` flag.
+
+Exceptions in `domain/errors.py`: `AIUnavailableError` and `AIRequiredError`. `create_app` registers handlers that turn them into HTTP 503 with an `ErrorOut` body.
 
 ### 12.2 Routes (in `api/routes.py`)
 
@@ -323,21 +343,26 @@ Not stubbed on purpose: the `on_labeled` hook and Null Object (deferred, section
 | POST | `/scenarios/{scenario_id}/run` | `run_scenario` | `LabelingService.run_scenario` | Run a preset |
 | POST | `/transactions` | `submit_transaction` | `LabelingService.label_transaction` | Custom form submit |
 | GET | `/transactions` | `list_transactions` | `LabelingService.list_transactions` | Feed for this session |
-| GET | `/transactions/{transaction_id}` | `get_transaction_detail` | `LabelingService.get_transaction_detail` | Side panel: bundle, reason, clues |
+| GET | `/transactions/{transaction_id}` | `get_transaction_detail` | `LabelingService.get_transaction_detail` | Side panel: bundle, reason, clues, tool trace |
 | GET | `/pending` | `list_pending` | `LabelingService.list_pending` | "Review later" batch, most senders first |
 | POST | `/labels` | `submit_label` | `LabelingService.apply_user_label` | User tap |
 | GET | `/summary` | `spending_summary` | `LabelingService.spending_summary` | Running total per category |
 | POST | `/aging/fast-forward` | `fast_forward_aging` | `LabelingService.age_unclassified` | Demo button, moves old items to Other |
 | POST | `/reset` | `reset_session` | `LabelingService.reset_session` | Delete this session's data |
+| POST | `/advice` | `request_advice` | `AdviceService.get_advice` | Generate or refresh advice (first load and "Get advice" button) |
+| GET | `/vouchers` | `list_vouchers` | `AdviceService.list_vouchers` | Mock voucher list |
+| PUT | `/profile` | `update_profile` | `AdviceService.update_profile` | Set monthly income |
 
 Session: a cookie holds `session_id`. `get_session_id` creates it on the first request.
+
+Errors: when AI is unavailable or required, the route returns HTTP 503 with `ErrorOut`. Nothing is saved as a label, and the frontend shows a retry (or "AI required" in `replay`). Routes that can fail this way declare it with `AI_ERRORS`, so it shows in OpenAPI.
 
 ### 12.3 Stubs
 
 ```python
 # app/main.py
 def create_app() -> FastAPI:
-    """Build the app, include the router, mount frontend/dist as static files."""
+    """Build the app, include the router, register the AI error handlers, mount frontend/dist as static files."""
     ...
 
 # app/config.py
@@ -345,14 +370,21 @@ def get_settings() -> Settings:
     """Read env vars and defaults. Keys are listed in section 9."""
     ...
 
+# app/domain/errors.py
+class AIUnavailableError(Exception): ...   # every provider failed, cap hit, or output invalid after one retry
+class AIRequiredError(Exception): ...       # replay mode, no stored answer for this input
+
 # app/api/deps.py
 def get_session_id(request: Request, response: Response) -> str: ...
 def get_labeling_service() -> LabelingService: ...
+def get_advice_service() -> AdviceService: ...
 
 # app/api/routes.py
 router = APIRouter()
 SessionId = Annotated[str, Depends(get_session_id)]
-Service = Annotated[LabelingService, Depends(get_labeling_service)]
+Labeling = Annotated[LabelingService, Depends(get_labeling_service)]
+Advice = Annotated[AdviceService, Depends(get_advice_service)]
+AI_ERRORS = {503: {"model": ErrorOut}}
 
 @router.get("/health")
 def health() -> HealthOut: ...
@@ -361,45 +393,56 @@ def health() -> HealthOut: ...
 def list_categories() -> list[str]: ...
 
 @router.get("/scenarios")
-def list_scenarios(service: Service) -> list[ScenarioOut]: ...
+def list_scenarios(service: Labeling) -> list[ScenarioOut]: ...
 
-@router.post("/scenarios/{scenario_id}/run")
-def run_scenario(scenario_id: str, session_id: SessionId, service: Service) -> LabeledTransaction: ...
+@router.post("/scenarios/{scenario_id}/run", responses=AI_ERRORS)
+def run_scenario(scenario_id: str, session_id: SessionId, service: Labeling) -> LabeledTransaction: ...
 
-@router.post("/transactions")
-def submit_transaction(body: TransactionIn, session_id: SessionId, service: Service) -> LabeledTransaction: ...
+@router.post("/transactions", responses=AI_ERRORS)
+def submit_transaction(body: TransactionIn, session_id: SessionId, service: Labeling) -> LabeledTransaction: ...
 
 @router.get("/transactions")
-def list_transactions(session_id: SessionId, service: Service) -> list[LabeledTransaction]: ...
+def list_transactions(session_id: SessionId, service: Labeling) -> list[LabeledTransaction]: ...
 
 @router.get("/transactions/{transaction_id}")
-def get_transaction_detail(transaction_id: str, session_id: SessionId, service: Service) -> TransactionDetailOut: ...
+def get_transaction_detail(transaction_id: str, session_id: SessionId, service: Labeling) -> TransactionDetailOut: ...
 
 @router.get("/pending")
-def list_pending(session_id: SessionId, service: Service) -> list[PendingItemOut]: ...
+def list_pending(session_id: SessionId, service: Labeling) -> list[PendingItemOut]: ...
 
 @router.post("/labels")
-def submit_label(body: LabelIn, session_id: SessionId, service: Service) -> LabeledTransaction: ...
+def submit_label(body: LabelIn, session_id: SessionId, service: Labeling) -> LabeledTransaction: ...
 
 @router.get("/summary")
-def spending_summary(session_id: SessionId, service: Service) -> list[CategoryTotalOut]: ...
+def spending_summary(session_id: SessionId, service: Labeling) -> list[CategoryTotalOut]: ...
 
 @router.post("/aging/fast-forward")
-def fast_forward_aging(body: AgingIn, session_id: SessionId, service: Service) -> list[LabeledTransaction]: ...
+def fast_forward_aging(body: AgingIn, session_id: SessionId, service: Labeling) -> list[LabeledTransaction]: ...
 
 @router.post("/reset")
-def reset_session(session_id: SessionId, service: Service) -> None: ...
+def reset_session(session_id: SessionId, service: Labeling) -> None: ...
+
+@router.post("/advice", responses=AI_ERRORS)
+def request_advice(session_id: SessionId, service: Advice) -> AdviceOut: ...
+
+@router.get("/vouchers")
+def list_vouchers(service: Advice) -> list[VoucherOut]: ...
+
+@router.put("/profile")
+def update_profile(body: ProfileIn, session_id: SessionId, service: Advice) -> ProfileOut: ...
 ```
 
 ```python
-# app/services/labeling_service.py  (Facade, the only entry for the API)
+# app/services/labeling_service.py  (Facade for Flow 1)
 class LabelingService:
     def __init__(self, handlers: list[Handler], transactions: TransactionRepo,
-                 memory: MemoryRepo, crowd: CrowdRepo) -> None: ...
+                 memory: MemoryRepo, crowd: CrowdRepo, users: UserRepo) -> None: ...
 
     def list_scenarios(self) -> list[ScenarioOut]: ...
     def run_scenario(self, session_id: str, scenario_id: str) -> LabeledTransaction: ...
-    def label_transaction(self, session_id: str, txn: TransactionIn) -> LabeledTransaction: ...
+    def label_transaction(self, session_id: str, txn: TransactionIn) -> LabeledTransaction:
+        """Run the chain. Raises AIUnavailableError or AIRequiredError, and saves nothing in that case."""
+        ...
     def list_transactions(self, session_id: str) -> list[LabeledTransaction]: ...
     def get_transaction_detail(self, session_id: str, transaction_id: str) -> TransactionDetailOut: ...
     def list_pending(self, session_id: str) -> list[PendingItemOut]: ...
@@ -408,7 +451,21 @@ class LabelingService:
         ...
     def spending_summary(self, session_id: str) -> list[CategoryTotalOut]: ...
     def age_unclassified(self, session_id: str, days: int) -> list[LabeledTransaction]: ...
-    def reset_session(self, session_id: str) -> None: ...
+    def reset_session(self, session_id: str) -> None:
+        """Delete this session's transactions, memory, crowd overlay and profile."""
+        ...
+
+# app/services/advice_service.py  (Facade for Flow 2)
+class AdviceService:
+    def __init__(self, transactions: TransactionRepo, users: UserRepo, vouchers: VoucherRepo,
+                 generator: AdviceGenerator, settings: Settings) -> None: ...
+
+    def get_advice(self, session_id: str) -> AdviceOut:
+        """Data check, build table and summary, generate, validate. If validation rejects,
+        generate once more, then raise AIUnavailableError."""
+        ...
+    def list_vouchers(self) -> list[VoucherOut]: ...
+    def update_profile(self, session_id: str, profile: ProfileIn) -> ProfileOut: ...
 ```
 
 ```python
@@ -432,9 +489,12 @@ class UserMemoryHandler:   # saved label for this receiver
 
 # app/pipeline/evidence.py
 class EvidenceBundleBuilder:
+    def __init__(self, crowd: CrowdRepo, transactions: TransactionRepo, users: UserRepo) -> None: ...
     def build(self, session_id: str, txn: TransactionIn) -> EvidenceBundle: ...
 
-def strip_sender_name(message: str, sender_name: str | None) -> str: ...
+def strip_sender_name(message: str, sender_name: str | None) -> str:
+    """sender_name comes from users.display_name."""
+    ...
 def time_features(timestamp: datetime) -> TimeFeatures: ...
 def amount_features(amount: int, user_median: float, crowd: CrowdStats | None) -> AmountFeatures: ...
 def name_clues(display_name: str) -> list[str]: ...
@@ -447,42 +507,92 @@ class DecisionHandler:
 
 # app/pipeline/guard.py
 def level_from_score(score: float) -> Confidence: ...
-def apply_guard(decision: Decision, bundle: EvidenceBundle) -> Decision:
-    """Final state in code: score cutoffs, min senders, min agreement, conflict cap, null category on Low."""
+def apply_guard(decision: Decision, crowd: CrowdStats | None) -> Decision:
+    """Final state in code. Reads distinct_senders and agreement from crowd (the DB), never from the
+    model's answer. Score cutoffs, min senders, min agreement, conflict cap, null category on Low."""
     ...
 def should_promote(stats: CrowdStats) -> bool:
     """Promotion rule for taps entering crowd aggregates."""
     ...
 
 class GuardHandler:
-    def handle(self, ctx: PipelineContext) -> PipelineContext: ...
+    def handle(self, ctx: PipelineContext) -> PipelineContext:
+        """Load crowd stats from the DB and pass them to apply_guard."""
+        ...
 ```
 
 ```python
 # app/engines/base.py
 class DecisionEngine(Protocol):
-    def decide(self, bundle: EvidenceBundle) -> Decision: ...
+    def decide(self, session_id: str, bundle: EvidenceBundle) -> Decision: ...
 
 # app/engines/live.py
 class LiveEngine:
-    def __init__(self, gateway: LLMGateway, fallback: DecisionEngine) -> None: ...
-    def decide(self, bundle: EvidenceBundle) -> Decision: ...
-    def _build_prompt(self, bundle: EvidenceBundle) -> str: ...
-    def _parse_decision(self, raw: dict) -> Decision | None:
-        """Validate against the schema. None means retry once, then UNCLASSIFIED."""
+    def __init__(self, gateway: LLMGateway,
+                 tools: dict[str, Callable[..., CrowdStats | None]]) -> None: ...
+    def decide(self, session_id: str, bundle: EvidenceBundle) -> Decision:
+        """Call 1, at most one tool step, call 2, parse. Fills used_tool and tool_trace.
+        Retry once on invalid output, then raise AIUnavailableError."""
         ...
+    def _build_prompt(self, bundle: EvidenceBundle, tool_result: CrowdStats | None = None) -> str: ...
+    def _run_tool(self, session_id: str, bundle: EvidenceBundle, name: str) -> CrowdStats | None:
+        """Run an allowed tool. The receiver id comes from the bundle, never from the model."""
+        ...
+    def _parse_decision(self, raw: dict) -> Decision | None:
+        """Validate against the schema. None means invalid."""
+        ...
+
+# app/engines/tools.py
+def get_receiver_fingerprint(crowd: CrowdRepo, session_id: str, receiver_id: str) -> CrowdStats | None: ...
+def build_tool_registry(crowd: CrowdRepo) -> dict[str, Callable[..., CrowdStats | None]]:
+    """Plain dict, name to function. Only get_receiver_fingerprint."""
+    ...
 
 # app/engines/replay.py
 class ReplayEngine:
-    def __init__(self, fixtures_path: Path, fallback: DecisionEngine) -> None: ...
-    def decide(self, bundle: EvidenceBundle) -> Decision: ...
-
-# app/engines/rules.py
-class RulesEngine:
-    def decide(self, bundle: EvidenceBundle) -> Decision: ...
+    def __init__(self, fixtures_path: Path) -> None: ...
+    def decide(self, session_id: str, bundle: EvidenceBundle) -> Decision:
+        """Stored answer for a seeded scenario. Raises AIRequiredError for anything else."""
+        ...
 
 # app/engines/factory.py
 def build_engine(run_mode: str) -> DecisionEngine: ...
+```
+
+```python
+# app/advice/tables.py  (pure functions, no I/O)
+def has_enough_data(transactions: list[LabeledTransaction], min_labeled: int,
+                    max_unclassified_share: float) -> bool: ...
+def build_category_table(this_month: list[LabeledTransaction], last_month: list[LabeledTransaction],
+                         monthly_income: int) -> list[CategoryRow]:
+    """Totals, share of income, change vs last month, cuttable flag (fixed costs are not cuttable)."""
+    ...
+def build_advice_summary(table: list[CategoryRow], monthly_income: int) -> AdviceSummary: ...
+
+# app/advice/validator.py
+def validate_advice(draft: AdviceDraft, summary: AdviceSummary, vouchers: list[VoucherOut],
+                    max_vouchers: int) -> AdviceOut | None:
+    """None means rejected: category not allowed or not cuttable, voucher id not on the list,
+    more than max_vouchers vouchers, or a number in the text that does not match the summary."""
+    ...
+
+# app/advice/generator.py
+class AdviceGenerator(Protocol):
+    def generate(self, summary: AdviceSummary, vouchers: list[VoucherOut]) -> AdviceDraft: ...
+
+class LiveAdviceGenerator:
+    def __init__(self, gateway: LLMGateway) -> None: ...
+    def generate(self, summary: AdviceSummary, vouchers: list[VoucherOut]) -> AdviceDraft:
+        """One call through the gateway, schema-checked, one retry on bad JSON, then AIUnavailableError."""
+        ...
+
+class ReplayAdviceGenerator:
+    def __init__(self, fixtures_path: Path) -> None: ...
+    def generate(self, summary: AdviceSummary, vouchers: list[VoucherOut]) -> AdviceDraft:
+        """Stored first-load advice. Raises AIRequiredError for anything else."""
+        ...
+
+def build_advice_generator(run_mode: str) -> AdviceGenerator: ...
 ```
 
 ```python
@@ -493,8 +603,8 @@ class LLMProvider(Protocol):
 
 class LLMGateway:
     def __init__(self, providers: list[LLMProvider], cache: ResponseCache, budget: DailyBudget) -> None: ...
-    def generate_json(self, prompt: str, schema: dict, cache_key: str) -> dict | None:
-        """None means every provider failed or the cap is hit. Caller falls back to RulesEngine."""
+    def generate_json(self, prompt: str, schema: dict, cache_key: str) -> dict:
+        """Raises AIUnavailableError when every provider failed or the daily cap is hit."""
         ...
 
 # app/llm/cache.py
@@ -522,6 +632,7 @@ class TransactionRepo:
     def save(self, session_id: str, item: LabeledTransaction) -> None: ...
     def get(self, session_id: str, transaction_id: str) -> LabeledTransaction | None: ...
     def list(self, session_id: str) -> list[LabeledTransaction]: ...
+    def list_labeled(self, session_id: str) -> list[LabeledTransaction]: ...
     def list_unclassified(self, session_id: str) -> list[LabeledTransaction]: ...
     def delete_session(self, session_id: str) -> None: ...
 
@@ -537,15 +648,25 @@ class CrowdRepo:
     def add_tap(self, session_id: str, receiver_id: str, sender_id: str, category: Category) -> None: ...
     def delete_session(self, session_id: str) -> None: ...
 
+class UserRepo:
+    def get_profile(self, session_id: str) -> ProfileOut: ...
+    def set_monthly_income(self, session_id: str, monthly_income: int) -> ProfileOut: ...
+    def delete_session(self, session_id: str) -> None: ...
+
 class MerchantRepo:        # read-only, shared seed tables
     def lookup_merchant(self, merchant_id: str) -> Category | None: ...
     def lookup_mcc(self, mcc: str) -> Category | None: ...
+
+class VoucherRepo:         # read-only, shared seed table
+    def list_all(self) -> list[VoucherOut]: ...
 ```
 
 ```python
 # scripts/seed.py and scripts/prewarm.py
-def seed_database() -> None: ...
+def seed_database() -> None:
+    """Merchants, MCC table, crowd aggregates, vouchers, the demo user with income, and the demo month of labeled transactions."""
+    ...
 def prewarm_scenarios() -> None:
-    """Run the four seeded scenarios once and store the results for replay mode."""
+    """Run the four seeded scenarios and the first-load advice once and store the results for replay mode."""
     ...
 ```
