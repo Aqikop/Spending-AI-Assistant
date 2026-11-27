@@ -43,7 +43,7 @@ Two separate flows feed this screen:
 - **Flow 1: Label a transaction.** Runs every time a transaction arrives.
 - **Flow 2: Advice and vouchers.** Runs on first load and when the user clicks "Get advice".
 
-The link between them is the `on_labeled` hook: once a transaction has a label, it counts in the category table.
+The link between them is the data, not a hook: Flow 2 reads the category table with a query on labeled transactions, so a transaction counts as soon as it is saved. There is no `on_labeled` hook (see `workload_plan_draft.md` section 2, item 3).
 
 ---
 
@@ -72,7 +72,7 @@ flowchart TD
     K -->|High| Z3[AUTO_LABELED]
     K -->|Medium| S[SUGGESTED, shown as editable, stored as AUTO_LABELED]
     K -->|Low| U[UNCLASSIFIED, category = null, ask later]
-    Z --> M[7. Save + on_labeled hook]
+    Z --> M[7. Save]
     Z2 --> M
     Z3 --> M
     S --> M
@@ -97,7 +97,7 @@ flowchart TD
 | 5b | AI call 2 | **AI** | Small package + fingerprint | Final answer | Same as 5a |
 | 5c | Validate AI answer | Code | AI JSON | Valid answer | Bad schema or category not in `allowed_categories`: retry once, then see 2.6 |
 | 6 | Policy guard | Code | AI answer + crowd numbers | Final level and action | Not applicable |
-| 7 | Save and hook | Code | Labeled transaction | Row saved, `on_labeled` fired, side panel updated | Clear error |
+| 7 | Save | Code | Labeled transaction | Row saved, side panel updated. Flow 2 picks it up on its next query | Clear error |
 | 8 | Tap prompt | UI + code | Unclassified items, sorted by receivers with most senders | `USER_LABELED`, saved to user memory | User can skip |
 | 9 | Aging | Code (scheduled, with a demo "fast-forward" button) | Unclassified older than N days | Category = Other | Not applicable |
 
