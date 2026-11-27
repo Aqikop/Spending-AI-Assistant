@@ -19,16 +19,16 @@ Free-tier terms for both providers change. Check the Bedrock console and the Gem
 
 ## 2. Tech stack
 
-| Layer | Choice | Why |
-|---|---|---|
-| Language | Python 3.12 | Team strength, best LLM SDK support |
-| API | FastAPI + Pydantic v2 | Typed schemas double as the I/O contract from `agent_io_spec.md` |
-| Database | SQLite | Zero ops, fits the per-session sandbox |
-| Frontend | React + Vite + Tailwind CSS, in its own `frontend/` folder | AI writes it and one teammate owns it. The build output is served by FastAPI, so there is still one URL. |
-| LLM | Behind `LLMGateway`: Gemini (free tier) and Bedrock, cheap fast model on both | Provider chain that ends in an "AI unavailable" error, see section 6 |
-| Tests | pytest | The four seeded scenarios are the acceptance tests |
-| Tooling | uv, ruff, mypy, Docker; Node and npm for the frontend only | One-command run for `replay` mode |
-| Deploy | One container on a small VM or App Runner | Single URL for judges |
+| Layer    | Choice                                                                        | Why                                                                                                      |
+| -------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Language | Python 3.12                                                                   | Team strength, best LLM SDK support                                                                      |
+| API      | FastAPI + Pydantic v2                                                         | Typed schemas double as the I/O contract from `agent_io_spec.md`                                         |
+| Database | SQLite                                                                        | Zero ops, fits the per-session sandbox                                                                   |
+| Frontend | React + Vite + Tailwind CSS, in its own `frontend/` folder                    | AI writes it and one teammate owns it. The build output is served by FastAPI, so there is still one URL. |
+| LLM      | Behind `LLMGateway`: Gemini (free tier) and Bedrock, cheap fast model on both | Provider chain that ends in an "AI unavailable" error, see section 6                                     |
+| Tests    | pytest                                                                        | The four seeded scenarios are the acceptance tests                                                       |
+| Tooling  | uv, ruff, mypy, Docker; Node and npm for the frontend only                    | One-command run for `replay` mode                                                                        |
+| Deploy   | One container on a small VM or App Runner                                     | Single URL for judges                                                                                    |
 
 **Frontend notes:**
 
@@ -70,14 +70,14 @@ Dependencies point inward only: `api -> services -> pipeline/engines/advice -> d
 
 ## 4. Design patterns (used only where they earn their place)
 
-| Pattern | Where | Purpose |
-|---|---|---|
-| Chain of Responsibility | Router -> User memory -> Evidence -> Decision -> Guard | Early exits. Each handler finalizes the transaction or passes it on. |
-| Strategy | `DecisionEngine`: `LiveEngine`, `ReplayEngine`. `AdviceGenerator`: `LiveAdviceGenerator`, `ReplayAdviceGenerator`. `LLMProvider`: `GeminiProvider`, `BedrockProvider` | Run modes and providers are swaps, not scattered `if`s |
-| Factory (simple) | `build_engine(RUN_MODE)`, `build_advice_generator(RUN_MODE)` | One place reads the env var |
-| Builder | `EvidenceBundleBuilder` | Bundle has many optional parts |
-| Facade | `LabelingService` (Flow 1), `AdviceService` (Flow 2) | Routes call one method and do not know the pipeline order |
-| Proxy / Decorator | Cache, daily budget cap, retry around the LLM provider | Cross-cutting concerns stay out of decision code |
+| Pattern                 | Where                                                                                                                                                                 | Purpose                                                              |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Chain of Responsibility | Router -> User memory -> Evidence -> Decision -> Guard                                                                                                                | Early exits. Each handler finalizes the transaction or passes it on. |
+| Strategy                | `DecisionEngine`: `LiveEngine`, `ReplayEngine`. `AdviceGenerator`: `LiveAdviceGenerator`, `ReplayAdviceGenerator`. `LLMProvider`: `GeminiProvider`, `BedrockProvider` | Run modes and providers are swaps, not scattered `if`s               |
+| Factory (simple)        | `build_engine(RUN_MODE)`, `build_advice_generator(RUN_MODE)`                                                                                                          | One place reads the env var                                          |
+| Builder                 | `EvidenceBundleBuilder`                                                                                                                                               | Bundle has many optional parts                                       |
+| Facade                  | `LabelingService` (Flow 1), `AdviceService` (Flow 2)                                                                                                                  | Routes call one method and do not know the pipeline order            |
+| Proxy / Decorator       | Cache, daily budget cap, retry around the LLM provider                                                                                                                | Cross-cutting concerns stay out of decision code                     |
 
 **Deliberately skipped:** State pattern (an enum plus a transition table is enough for 4 states), Command, Singleton, Abstract Factory, and Observer with Null Object (Flow 2 reads labeled transactions with a query, so no `on_labeled` hook is needed). Judges reading the code will notice over-engineering.
 
@@ -131,6 +131,7 @@ Source: behavioral guidelines derived from [Andrej Karpathy's observations](http
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
 
 Before implementing:
+
 - State your assumptions explicitly. If uncertain, ask.
 - If multiple interpretations exist, present them. Don't pick silently.
 - If a simpler approach exists, say so. Push back when warranted.
@@ -153,12 +154,14 @@ Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, sim
 **Touch only what you must. Clean up only your own mess.**
 
 When editing existing code:
+
 - Don't "improve" adjacent code, comments, or formatting.
 - Don't refactor things that aren't broken.
 - Match existing style, even if you'd do it differently.
 - If you notice unrelated dead code, mention it. Don't delete it.
 
 When your changes create orphans:
+
 - Remove imports, variables and functions that YOUR changes made unused.
 - Don't remove pre-existing dead code unless asked.
 
@@ -169,6 +172,7 @@ The test: every changed line should trace directly to the user's request.
 **Define success criteria. Loop until verified.**
 
 Transform tasks into verifiable goals:
+
 - "Add validation" becomes "Write tests for invalid inputs, then make them pass"
 - "Fix the bug" becomes "Write a test that reproduces it, then make it pass"
 - "Refactor X" becomes "Ensure tests pass before and after"
@@ -216,15 +220,15 @@ cache (by bundle hash) -> daily budget cap -> provider chain -> AI unavailable
 
 Working assumption from `workload_plan_draft.md` (decision 1): **option 2**, one tool (`get_receiver_fingerprint`), at most one tool call per transaction. Confirm in the Day 1 sync. The table shows what changes under each option.
 
-| | Option 1: single call | Option 2: tool call | Option 3: agent picks action |
-|---|---|---|---|
-| LLM calls per transaction | 1 | 1 to 2 | 1 |
-| Free-tier pressure | Lowest | Highest, up to double | Same as option 1 |
-| New code | None | Tool registry, loop with max iterations | `proposed_action` field, guard mapping |
-| Policy guard | Maps score to state | Same | Caps or overrides the model's action |
-| Side panel | Bundle, reason, clues | Adds tool-call trace | Adds proposed vs final action |
-| Testing | Easiest | Needs loop and failure tests | Needs action-validity tests |
-| "Agent" claim | Weak: call it "AI decision step" | Accurate | Accurate, closest to original framing |
+|                           | Option 1: single call            | Option 2: tool call                     | Option 3: agent picks action           |
+| ------------------------- | -------------------------------- | --------------------------------------- | -------------------------------------- |
+| LLM calls per transaction | 1                                | 1 to 2                                  | 1                                      |
+| Free-tier pressure        | Lowest                           | Highest, up to double                   | Same as option 1                       |
+| New code                  | None                             | Tool registry, loop with max iterations | `proposed_action` field, guard mapping |
+| Policy guard              | Maps score to state              | Same                                    | Caps or overrides the model's action   |
+| Side panel                | Bundle, reason, clues            | Adds tool-call trace                    | Adds proposed vs final action          |
+| Testing                   | Easiest                          | Needs loop and failure tests            | Needs action-validity tests            |
+| "Agent" claim             | Weak: call it "AI decision step" | Accurate                                | Accurate, closest to original framing  |
 
 Seams that keep every option open:
 
@@ -239,9 +243,9 @@ Under option 2 the AI decides whether to call a tool, so "AI agent" is accurate.
 
 ## 8. Run modes
 
-| Mode | Used by | AI step |
-|---|---|---|
-| `live` | Hosted demo | Real LLM via `LLMGateway` |
+| Mode     | Used by                       | AI step                                                                                                    |
+| -------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `live`   | Hosted demo                   | Real LLM via `LLMGateway`                                                                                  |
 | `replay` | Judge running the zip locally | Precomputed outputs for the seeded scenarios and the first-load advice. Custom input returns `AI_REQUIRED` |
 
 Selected by one env var, `RUN_MODE`. Never put an API key in the zip. The README states plainly that custom transactions in `replay` need AI and return an "AI required" message. There is no rules fallback.
@@ -250,20 +254,20 @@ Selected by one env var, `RUN_MODE`. Never put an API key in the zip. The README
 
 ## 9. Configuration (all in `config.py`, overridable by env)
 
-| Key | Draft value |
-|---|---|
-| `RUN_MODE` | `live` or `replay` |
-| `LLM_PROVIDER_ORDER` | `gemini,bedrock` |
-| `GEMINI_MODEL`, `BEDROCK_MODEL_ID` | set after checking the account |
-| `LLM_DAILY_CALL_CAP` | set from the real free-tier limit |
-| `SCORE_HIGH`, `SCORE_MEDIUM` | 0.80, 0.50 |
-| `MIN_SENDERS_HIGH` | 15 |
-| `MIN_AGREEMENT_HIGH` | 0.60 |
+| Key                                                | Draft value                            |
+| -------------------------------------------------- | -------------------------------------- |
+| `RUN_MODE`                                         | `live` or `replay`                     |
+| `LLM_PROVIDER_ORDER`                               | `gemini,bedrock`                       |
+| `GEMINI_MODEL`, `BEDROCK_MODEL_ID`                 | set after checking the account         |
+| `LLM_DAILY_CALL_CAP`                               | set from the real free-tier limit      |
+| `SCORE_HIGH`, `SCORE_MEDIUM`                       | 0.80, 0.50                             |
+| `MIN_SENDERS_HIGH`                                 | 15                                     |
+| `MIN_AGREEMENT_HIGH`                               | 0.60                                   |
 | `PROMOTION_MIN_SENDERS`, `PROMOTION_MIN_AGREEMENT` | lowered for the demo, stated in README |
-| `UNCLASSIFIED_AGING_DAYS` | N, to be decided |
-| `ADVICE_MIN_LABELED` | N, to be decided |
-| `ADVICE_MAX_UNCLASSIFIED_SHARE` | to be decided |
-| `ADVICE_MAX_VOUCHERS` | 3 |
+| `UNCLASSIFIED_AGING_DAYS`                          | N, to be decided                       |
+| `ADVICE_MIN_LABELED`                               | N, to be decided                       |
+| `ADVICE_MAX_UNCLASSIFIED_SHARE`                    | to be decided                          |
+| `ADVICE_MAX_VOUCHERS`                              | 3                                      |
 
 ---
 
@@ -286,7 +290,7 @@ Dates and owners per step are in `workload_plan_draft.md`.
 
 - Open item 8.1: option 2 is the working assumption, to be confirmed in the Day 1 sync.
 - Endpoint list and response shapes in section 12 (including `/advice`, `/vouchers`, `/profile`) to be confirmed with the frontend teammate.
-- Where the UI reads the current monthly income: only `PUT /profile` exists, so either add `GET /profile` or return the profile with another response.
+- ~~Where the UI reads the current monthly income: only `PUT /profile` exists, so either add `GET /profile` or return the profile with another response.~~
 - `agent_io_spec.md` must be updated: drop `own_label_for_receiver`, add `used_tool`, and add `receiver_id` to the bundle's transaction block (needed by the tool).
 - Exact free-tier models and limits on Gemini and Bedrock.
 - Minimum `distinct_senders`, agreement level and score cutoffs, tuned on the seeded data.
@@ -305,29 +309,29 @@ Not stubbed on purpose: `GET /budget` and the budget alert (out of scope, the ad
 
 ### 12.1 Models (in `domain/models.py`, no I/O)
 
-| Model | Holds | Source |
-|---|---|---|
-| `TransactionIn` | Raw transaction JSON | `agent_context.md` section 5 |
-| `EvidenceBundle` | Clues built by code, including `receiver_id` for the tool (code side only) | `agent_io_spec.md` section 2 |
-| `CrowdStats` | `distinct_senders`, `label_distribution`, `typical_amount_range`, `peak_hours`, `message_keywords` | `agent_io_spec.md` section 2 |
-| `Decision` | Category, confidence, score, action, reason, `clues_used`, alternatives, buttons, optional `used_tool`, `tool_trace` and `proposed_action` | `agent_io_spec.md` section 3 |
-| `LabeledTransaction` | Transaction, final state, final category, `is_suggested`, `Decision` | `states.py` for the four states |
-| `TransactionDetailOut` | `LabeledTransaction` plus its `EvidenceBundle` (side panel) | New |
-| `PendingItemOut` | Unclassified transaction, `suggested_buttons`, receiver sender count | New |
-| `CategoryTotalOut` | Category, total amount, count | New |
-| `ScenarioOut` | Scenario id, title, description, sample transaction | New |
-| `LabelIn` | `transaction_id`, `category` (a tap) | New |
-| `AgingIn` | `days` (demo fast-forward) | New |
-| `HealthOut` | Status, `run_mode` | New |
-| `ErrorOut` | `code` (`AI_UNAVAILABLE` or `AI_REQUIRED`), `message` | New |
-| `ProfileIn` | `monthly_income` | New |
-| `ProfileOut` | `display_name`, `monthly_income` | New |
-| `VoucherOut` | Voucher id, title, category, `why` text | New |
-| `CategoryRow` | Category, total, share of income, change vs last month, `cuttable` flag | New |
-| `AdviceOut` | `status` (`ok` or `not_enough_data`), category table (`CategoryRow` list), advice items, up to 3 vouchers | New |
-| `AdviceSummary` | Internal: the numbers the advice text must match | New, never sent to the UI |
-| `AdviceDraft` | Internal: the AI's advice before validation | New, never sent to the UI |
-| `PipelineContext` | Internal: session id, transaction, bundle, decision, result | New, never sent to the UI |
+| Model                  | Holds                                                                                                                                      | Source                          |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- |
+| `TransactionIn`        | Raw transaction JSON                                                                                                                       | `agent_context.md` section 5    |
+| `EvidenceBundle`       | Clues built by code, including `receiver_id` for the tool (code side only)                                                                 | `agent_io_spec.md` section 2    |
+| `CrowdStats`           | `distinct_senders`, `label_distribution`, `typical_amount_range`, `peak_hours`, `message_keywords`                                         | `agent_io_spec.md` section 2    |
+| `Decision`             | Category, confidence, score, action, reason, `clues_used`, alternatives, buttons, optional `used_tool`, `tool_trace` and `proposed_action` | `agent_io_spec.md` section 3    |
+| `LabeledTransaction`   | Transaction, final state, final category, `is_suggested`, `Decision`                                                                       | `states.py` for the four states |
+| `TransactionDetailOut` | `LabeledTransaction` plus its `EvidenceBundle` (side panel)                                                                                | New                             |
+| `PendingItemOut`       | Unclassified transaction, `suggested_buttons`, receiver sender count                                                                       | New                             |
+| `CategoryTotalOut`     | Category, total amount, count                                                                                                              | New                             |
+| `ScenarioOut`          | Scenario id, title, description, sample transaction                                                                                        | New                             |
+| `LabelIn`              | `transaction_id`, `category` (a tap)                                                                                                       | New                             |
+| `AgingIn`              | `days` (demo fast-forward)                                                                                                                 | New                             |
+| `HealthOut`            | Status, `run_mode`                                                                                                                         | New                             |
+| `ErrorOut`             | `code` (`AI_UNAVAILABLE` or `AI_REQUIRED`), `message`                                                                                      | New                             |
+| `ProfileIn`            | `monthly_income`                                                                                                                           | New                             |
+| `ProfileOut`           | `display_name`, `monthly_income`                                                                                                           | New                             |
+| `VoucherOut`           | Voucher id, title, category, `why` text                                                                                                    | New                             |
+| `CategoryRow`          | Category, total, share of income, change vs last month, `cuttable` flag                                                                    | New                             |
+| `AdviceOut`            | `status` (`ok` or `not_enough_data`), category table (`CategoryRow` list), advice items, up to 3 vouchers                                  | New                             |
+| `AdviceSummary`        | Internal: the numbers the advice text must match                                                                                           | New, never sent to the UI       |
+| `AdviceDraft`          | Internal: the AI's advice before validation                                                                                                | New, never sent to the UI       |
+| `PipelineContext`      | Internal: session id, transaction, bundle, decision, result                                                                                | New, never sent to the UI       |
 
 Fixed costs (not cuttable): Housing & Rent, Bills & Utilities, Health & Education. Defined once in `domain/categories.py` and used for the `cuttable` flag.
 
@@ -335,23 +339,24 @@ Exceptions in `domain/errors.py`: `AIUnavailableError` and `AIRequiredError`. `c
 
 ### 12.2 Routes (in `api/routes.py`)
 
-| Method | Path | Handler | Calls | Purpose |
-|---|---|---|---|---|
-| GET | `/health` | `health` | none | Status and `run_mode` |
-| GET | `/categories` | `list_categories` | none | Category list from the enum |
-| GET | `/scenarios` | `list_scenarios` | `LabelingService.list_scenarios` | Four preset scenario buttons |
-| POST | `/scenarios/{scenario_id}/run` | `run_scenario` | `LabelingService.run_scenario` | Run a preset |
-| POST | `/transactions` | `submit_transaction` | `LabelingService.label_transaction` | Custom form submit |
-| GET | `/transactions` | `list_transactions` | `LabelingService.list_transactions` | Feed for this session |
-| GET | `/transactions/{transaction_id}` | `get_transaction_detail` | `LabelingService.get_transaction_detail` | Side panel: bundle, reason, clues, tool trace |
-| GET | `/pending` | `list_pending` | `LabelingService.list_pending` | "Review later" batch, most senders first |
-| POST | `/labels` | `submit_label` | `LabelingService.apply_user_label` | User tap |
-| GET | `/summary` | `spending_summary` | `LabelingService.spending_summary` | Running total per category |
-| POST | `/aging/fast-forward` | `fast_forward_aging` | `LabelingService.age_unclassified` | Demo button, moves old items to Other |
-| POST | `/reset` | `reset_session` | `LabelingService.reset_session` | Delete this session's data |
-| POST | `/advice` | `request_advice` | `AdviceService.get_advice` | Generate or refresh advice (first load and "Get advice" button) |
-| GET | `/vouchers` | `list_vouchers` | `AdviceService.list_vouchers` | Mock voucher list |
-| PUT | `/profile` | `update_profile` | `AdviceService.update_profile` | Set monthly income |
+| Method | Path                             | Handler                  | Calls                                    | Purpose                                                         |
+| ------ | -------------------------------- | ------------------------ | ---------------------------------------- | --------------------------------------------------------------- |
+| GET    | `/health`                        | `health`                 | none                                     | Status and `run_mode`                                           |
+| GET    | `/categories`                    | `list_categories`        | none                                     | Category list from the enum                                     |
+| GET    | `/scenarios`                     | `list_scenarios`         | `LabelingService.list_scenarios`         | Four preset scenario buttons                                    |
+| POST   | `/scenarios/{scenario_id}/run`   | `run_scenario`           | `LabelingService.run_scenario`           | Run a preset                                                    |
+| POST   | `/transactions`                  | `submit_transaction`     | `LabelingService.label_transaction`      | Custom form submit                                              |
+| GET    | `/transactions`                  | `list_transactions`      | `LabelingService.list_transactions`      | Feed for this session                                           |
+| GET    | `/transactions/{transaction_id}` | `get_transaction_detail` | `LabelingService.get_transaction_detail` | Side panel: bundle, reason, clues, tool trace                   |
+| GET    | `/pending`                       | `list_pending`           | `LabelingService.list_pending`           | "Review later" batch, most senders first                        |
+| POST   | `/labels`                        | `submit_label`           | `LabelingService.apply_user_label`       | User tap                                                        |
+| GET    | `/summary`                       | `spending_summary`       | `LabelingService.spending_summary`       | Running total per category                                      |
+| POST   | `/aging/fast-forward`            | `fast_forward_aging`     | `LabelingService.age_unclassified`       | Demo button, moves old items to Other                           |
+| POST   | `/reset`                         | `reset_session`          | `LabelingService.reset_session`          | Delete this session's data                                      |
+| POST   | `/advice`                        | `request_advice`         | `AdviceService.get_advice`               | Generate or refresh advice (first load and "Get advice" button) |
+| GET    | `/vouchers`                      | `list_vouchers`          | `AdviceService.list_vouchers`            | Mock voucher list                                               |
+| PUT    | `/profile`                       | `update_profile`         | `AdviceService.update_profile`           | Set monthly income                                              |
+| GET    | /profile                         | get_profile              | AdviceService.get_profile                | Read display name and monthly income                            |
 
 Session: a cookie holds `session_id`. `get_session_id` creates it on the first request.
 
@@ -430,6 +435,9 @@ def list_vouchers(service: Advice) -> list[VoucherOut]: ...
 
 @router.put("/profile")
 def update_profile(body: ProfileIn, session_id: SessionId, service: Advice) -> ProfileOut: ...
+
+@router.get("/profile")
+def get_profile(session_id: SessionId, service: Advice) -> ProfileOut: ...
 ```
 
 ```python
@@ -466,6 +474,7 @@ class AdviceService:
         ...
     def list_vouchers(self) -> list[VoucherOut]: ...
     def update_profile(self, session_id: str, profile: ProfileIn) -> ProfileOut: ...
+    def get_profile(self, session_id: str) -> ProfileOut: ...
 ```
 
 ```python
