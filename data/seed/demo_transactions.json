@@ -1,0 +1,2139 @@
+[
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261001_000001",
+      "timestamp": "2026-10-01T08:40:00+07:00",
+      "amount": 2000000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970422_0987000111",
+        "display_name": "LE VAN BAO",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC tien nha thang 10",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "USER_LABELED",
+    "category": "Housing & Rent",
+    "is_suggested": false,
+    "source": "user",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261004_000002",
+      "timestamp": "2026-10-04T19:30:00+07:00",
+      "amount": 280000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_DIEN_LUC",
+        "display_name": "Dien Luc TP HCM",
+        "merchant_id": "MM_DIEN_LUC",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Bills & Utilities",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261006_000003",
+      "timestamp": "2026-10-06T20:10:00+07:00",
+      "amount": 150000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_INTERNET_FIBER",
+        "display_name": "Internet Fiber HCM",
+        "merchant_id": "MM_INTERNET_FIBER",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Bills & Utilities",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261014_000004",
+      "timestamp": "2026-10-14T09:20:00+07:00",
+      "amount": 90000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_TOPUP_PHONE",
+        "display_name": "Nap Dien Thoai",
+        "merchant_id": "MM_TOPUP_PHONE",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Bills & Utilities",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261002_000005",
+      "timestamp": "2026-10-02T12:05:00+07:00",
+      "amount": 45000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_COMTAM_99",
+        "display_name": "Com Tam 99",
+        "merchant_id": "MM_COMTAM_99",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261003_000006",
+      "timestamp": "2026-10-03T07:50:00+07:00",
+      "amount": 38000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_BANHMI_LAN",
+        "display_name": "Banh Mi Co Lan",
+        "merchant_id": "MM_BANHMI_LAN",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261005_000007",
+      "timestamp": "2026-10-05T12:20:00+07:00",
+      "amount": 52000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970407_0334455661",
+        "display_name": "TRAN THI MAI",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "AI",
+    "confidence": "high",
+    "decision": {
+      "transaction_id": "TXN_20261005_000007",
+      "category": "Food & Drink",
+      "confidence": "high",
+      "confidence_score": 0.86,
+      "action": "AUTO_LABELED",
+      "reason": "25 senders paid this receiver and 80% labeled it Food & Drink. The amount and time fit.",
+      "clues_used": [
+        {
+          "clue": "crowd_labels",
+          "detail": "80% Food & Drink across 25 distinct senders",
+          "weight": "strong"
+        },
+        {
+          "clue": "time_and_amount",
+          "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        }
+      ],
+      "alternatives": [
+        {
+          "category": "Personal transfer",
+          "score": 0.04
+        },
+        {
+          "category": "Groceries & Market",
+          "score": 0.02
+        }
+      ],
+      "suggested_buttons": [],
+      "used_tool": true,
+      "tool_trace": [
+        {
+          "tool": "get_receiver_fingerprint",
+          "result_summary": "25 senders found"
+        }
+      ]
+    }
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261008_000008",
+      "timestamp": "2026-10-08T12:30:00+07:00",
+      "amount": 60000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_PHO_THIN",
+        "display_name": "Pho Thin 24h",
+        "merchant_id": "MM_PHO_THIN",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261010_000009",
+      "timestamp": "2026-10-10T19:15:00+07:00",
+      "amount": 120000,
+      "channel": "VIETQR_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970436_5550001001",
+        "display_name": "Quan Nuong Sai Gon",
+        "merchant_id": null,
+        "mcc": "5812",
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261013_000010",
+      "timestamp": "2026-10-13T15:40:00+07:00",
+      "amount": 48000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_TRASUA_BOBO",
+        "display_name": "Tra Sua Bobo",
+        "merchant_id": "MM_TRASUA_BOBO",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261016_000011",
+      "timestamp": "2026-10-16T08:05:00+07:00",
+      "amount": 55000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_CAFE_NHAXUA",
+        "display_name": "Cafe Nha Xua",
+        "merchant_id": "MM_CAFE_NHAXUA",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261019_000012",
+      "timestamp": "2026-10-19T19:40:00+07:00",
+      "amount": 160000,
+      "channel": "VIETQR_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970418_5550001002",
+        "display_name": "Nha Hang Bien Dong",
+        "merchant_id": null,
+        "mcc": "5812",
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261023_000013",
+      "timestamp": "2026-10-23T18:50:00+07:00",
+      "amount": 130000,
+      "channel": "VIETQR_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970436_5550001006",
+        "display_name": "Ga Ran Vui",
+        "merchant_id": null,
+        "mcc": "5814",
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261027_000014",
+      "timestamp": "2026-10-27T12:10:00+07:00",
+      "amount": 122000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_PHO_THIN",
+        "display_name": "Pho Thin 24h",
+        "merchant_id": "MM_PHO_THIN",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261005_000015",
+      "timestamp": "2026-10-05T17:45:00+07:00",
+      "amount": 210000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_SIEUTHI_AN",
+        "display_name": "Sieu Thi An Phat",
+        "merchant_id": "MM_SIEUTHI_AN",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Groceries & Market",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261015_000016",
+      "timestamp": "2026-10-15T18:00:00+07:00",
+      "amount": 75000,
+      "channel": "VIETQR_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970422_5550001005",
+        "display_name": "Cua Hang Thuc Pham Sach",
+        "merchant_id": null,
+        "mcc": "5499",
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Groceries & Market",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261026_000017",
+      "timestamp": "2026-10-26T17:30:00+07:00",
+      "amount": 235000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_SIEUTHI_AN",
+        "display_name": "Sieu Thi An Phat",
+        "merchant_id": "MM_SIEUTHI_AN",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Groceries & Market",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261002_000018",
+      "timestamp": "2026-10-02T08:20:00+07:00",
+      "amount": 90000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_XANH_TAXI",
+        "display_name": "Xanh Taxi",
+        "merchant_id": "MM_XANH_TAXI",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Transport",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261009_000019",
+      "timestamp": "2026-10-09T07:55:00+07:00",
+      "amount": 130000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_XANGDAU_PV",
+        "display_name": "Petrol Station PV",
+        "merchant_id": "MM_XANGDAU_PV",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Transport",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261020_000020",
+      "timestamp": "2026-10-20T09:10:00+07:00",
+      "amount": 100000,
+      "channel": "VIETQR_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970415_5550001004",
+        "display_name": "Cay Xang Hung Thinh",
+        "merchant_id": null,
+        "mcc": "5541",
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Transport",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261018_000021",
+      "timestamp": "2026-10-18T15:10:00+07:00",
+      "amount": 280000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_THOITRANG_MY",
+        "display_name": "Thoi Trang My Anh",
+        "merchant_id": "MM_THOITRANG_MY",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Shopping",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261010_000022",
+      "timestamp": "2026-10-10T20:30:00+07:00",
+      "amount": 140000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_CINE_STAR",
+        "display_name": "Cine Star Cinema",
+        "merchant_id": "MM_CINE_STAR",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Entertainment & Outdoor",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261024_000023",
+      "timestamp": "2026-10-24T21:00:00+07:00",
+      "amount": 120000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_KARAOKE_VUI",
+        "display_name": "Karaoke Vui Ve",
+        "merchant_id": "MM_KARAOKE_VUI",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Entertainment & Outdoor",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261012_000024",
+      "timestamp": "2026-10-12T18:00:00+07:00",
+      "amount": 200000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_EDU_ENGLISH",
+        "display_name": "Trung Tam Anh Ngu Sunrise",
+        "merchant_id": "MM_EDU_ENGLISH",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Health & Education",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261022_000025",
+      "timestamp": "2026-10-22T21:20:00+07:00",
+      "amount": 200000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970415_0912345678",
+        "display_name": "PHAM THI LAN",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC tra tien an",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "USER_LABELED",
+    "category": "Personal transfer",
+    "is_suggested": false,
+    "source": "user",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261101_000026",
+      "timestamp": "2026-11-01T08:30:00+07:00",
+      "amount": 2000000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970422_0987000111",
+        "display_name": "LE VAN BAO",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC tien nha thang 11",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Housing & Rent",
+    "is_suggested": false,
+    "source": "memory",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261103_000027",
+      "timestamp": "2026-11-03T19:20:00+07:00",
+      "amount": 310000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_DIEN_LUC",
+        "display_name": "Dien Luc TP HCM",
+        "merchant_id": "MM_DIEN_LUC",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Bills & Utilities",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261105_000028",
+      "timestamp": "2026-11-05T20:05:00+07:00",
+      "amount": 150000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_INTERNET_FIBER",
+        "display_name": "Internet Fiber HCM",
+        "merchant_id": "MM_INTERNET_FIBER",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Bills & Utilities",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261112_000029",
+      "timestamp": "2026-11-12T09:15:00+07:00",
+      "amount": 80000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_TOPUP_PHONE",
+        "display_name": "Nap Dien Thoai",
+        "merchant_id": "MM_TOPUP_PHONE",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Bills & Utilities",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261102_000030",
+      "timestamp": "2026-11-02T12:10:00+07:00",
+      "amount": 45000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_COMTAM_99",
+        "display_name": "Com Tam 99",
+        "merchant_id": "MM_COMTAM_99",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261103_000031",
+      "timestamp": "2026-11-03T07:45:00+07:00",
+      "amount": 35000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_BANHMI_LAN",
+        "display_name": "Banh Mi Co Lan",
+        "merchant_id": "MM_BANHMI_LAN",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261104_000032",
+      "timestamp": "2026-11-04T12:25:00+07:00",
+      "amount": 60000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970407_0334455661",
+        "display_name": "TRAN THI MAI",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "AI",
+    "confidence": "high",
+    "decision": {
+      "transaction_id": "TXN_20261104_000032",
+      "category": "Food & Drink",
+      "confidence": "high",
+      "confidence_score": 0.88,
+      "action": "AUTO_LABELED",
+      "reason": "25 senders paid this receiver and 80% labeled it Food & Drink. The amount and time fit.",
+      "clues_used": [
+        {
+          "clue": "crowd_labels",
+          "detail": "80% Food & Drink across 25 distinct senders",
+          "weight": "strong"
+        },
+        {
+          "clue": "time_and_amount",
+          "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        }
+      ],
+      "alternatives": [
+        {
+          "category": "Personal transfer",
+          "score": 0.04
+        },
+        {
+          "category": "Groceries & Market",
+          "score": 0.02
+        }
+      ],
+      "suggested_buttons": [],
+      "used_tool": true,
+      "tool_trace": [
+        {
+          "tool": "get_receiver_fingerprint",
+          "result_summary": "25 senders found"
+        }
+      ]
+    }
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261106_000033",
+      "timestamp": "2026-11-06T15:30:00+07:00",
+      "amount": 55000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_TRASUA_BOBO",
+        "display_name": "Tra Sua Bobo",
+        "merchant_id": "MM_TRASUA_BOBO",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261108_000034",
+      "timestamp": "2026-11-08T19:10:00+07:00",
+      "amount": 150000,
+      "channel": "VIETQR_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970436_5550001001",
+        "display_name": "Quan Nuong Sai Gon",
+        "merchant_id": null,
+        "mcc": "5812",
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261109_000035",
+      "timestamp": "2026-11-09T12:05:00+07:00",
+      "amount": 50000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970407_0334455661",
+        "display_name": "TRAN THI MAI",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "AI",
+    "confidence": "high",
+    "decision": {
+      "transaction_id": "TXN_20261109_000035",
+      "category": "Food & Drink",
+      "confidence": "high",
+      "confidence_score": 0.87,
+      "action": "AUTO_LABELED",
+      "reason": "25 senders paid this receiver and 80% labeled it Food & Drink. The amount and time fit.",
+      "clues_used": [
+        {
+          "clue": "crowd_labels",
+          "detail": "80% Food & Drink across 25 distinct senders",
+          "weight": "strong"
+        },
+        {
+          "clue": "time_and_amount",
+          "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        }
+      ],
+      "alternatives": [
+        {
+          "category": "Personal transfer",
+          "score": 0.04
+        },
+        {
+          "category": "Groceries & Market",
+          "score": 0.02
+        }
+      ],
+      "suggested_buttons": [],
+      "used_tool": true,
+      "tool_trace": [
+        {
+          "tool": "get_receiver_fingerprint",
+          "result_summary": "25 senders found"
+        }
+      ]
+    }
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261111_000036",
+      "timestamp": "2026-11-11T08:00:00+07:00",
+      "amount": 40000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_CAFE_NHAXUA",
+        "display_name": "Cafe Nha Xua",
+        "merchant_id": "MM_CAFE_NHAXUA",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261113_000037",
+      "timestamp": "2026-11-13T12:30:00+07:00",
+      "amount": 65000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_PHO_THIN",
+        "display_name": "Pho Thin 24h",
+        "merchant_id": "MM_PHO_THIN",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261115_000038",
+      "timestamp": "2026-11-15T16:20:00+07:00",
+      "amount": 45000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970418_0765432101",
+        "display_name": "VO VAN HUNG",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": true,
+    "source": "AI",
+    "confidence": "medium",
+    "decision": {
+      "transaction_id": "TXN_20261115_000038",
+      "category": "Food & Drink",
+      "confidence": "medium",
+      "confidence_score": 0.62,
+      "action": "SUGGESTED",
+      "reason": "Only 11 senders, 64% say Food & Drink. Time and amount fit, but the evidence is thin.",
+      "clues_used": [
+        {
+          "clue": "crowd_labels",
+          "detail": "64% Food & Drink across 11 distinct senders",
+          "weight": "strong"
+        },
+        {
+          "clue": "time_and_amount",
+          "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        }
+      ],
+      "alternatives": [
+        {
+          "category": "Personal transfer",
+          "score": 0.08
+        },
+        {
+          "category": "Shopping",
+          "score": 0.03
+        }
+      ],
+      "suggested_buttons": [],
+      "used_tool": true,
+      "tool_trace": [
+        {
+          "tool": "get_receiver_fingerprint",
+          "result_summary": "11 senders found"
+        }
+      ]
+    }
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261118_000039",
+      "timestamp": "2026-11-18T12:15:00+07:00",
+      "amount": 55000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970407_0334455661",
+        "display_name": "TRAN THI MAI",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "AI",
+    "confidence": "high",
+    "decision": {
+      "transaction_id": "TXN_20261118_000039",
+      "category": "Food & Drink",
+      "confidence": "high",
+      "confidence_score": 0.88,
+      "action": "AUTO_LABELED",
+      "reason": "25 senders paid this receiver and 80% labeled it Food & Drink. The amount and time fit.",
+      "clues_used": [
+        {
+          "clue": "crowd_labels",
+          "detail": "80% Food & Drink across 25 distinct senders",
+          "weight": "strong"
+        },
+        {
+          "clue": "time_and_amount",
+          "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        }
+      ],
+      "alternatives": [
+        {
+          "category": "Personal transfer",
+          "score": 0.04
+        },
+        {
+          "category": "Groceries & Market",
+          "score": 0.02
+        }
+      ],
+      "suggested_buttons": [],
+      "used_tool": true,
+      "tool_trace": [
+        {
+          "tool": "get_receiver_fingerprint",
+          "result_summary": "25 senders found"
+        }
+      ]
+    }
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261120_000040",
+      "timestamp": "2026-11-20T19:30:00+07:00",
+      "amount": 250000,
+      "channel": "VIETQR_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970418_5550001002",
+        "display_name": "Nha Hang Bien Dong",
+        "merchant_id": null,
+        "mcc": "5812",
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261122_000041",
+      "timestamp": "2026-11-22T12:20:00+07:00",
+      "amount": 48000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_COMTAM_99",
+        "display_name": "Com Tam 99",
+        "merchant_id": "MM_COMTAM_99",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261123_000042",
+      "timestamp": "2026-11-23T12:35:00+07:00",
+      "amount": 62000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_PHO_THIN",
+        "display_name": "Pho Thin 24h",
+        "merchant_id": "MM_PHO_THIN",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261124_000043",
+      "timestamp": "2026-11-24T08:30:00+07:00",
+      "amount": 40000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970418_0765432101",
+        "display_name": "VO VAN HUNG",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Food & Drink",
+    "is_suggested": true,
+    "source": "AI",
+    "confidence": "medium",
+    "decision": {
+      "transaction_id": "TXN_20261124_000043",
+      "category": "Food & Drink",
+      "confidence": "medium",
+      "confidence_score": 0.6,
+      "action": "SUGGESTED",
+      "reason": "Only 11 senders, 64% say Food & Drink. Time and amount fit, but the evidence is thin.",
+      "clues_used": [
+        {
+          "clue": "crowd_labels",
+          "detail": "64% Food & Drink across 11 distinct senders",
+          "weight": "strong"
+        },
+        {
+          "clue": "time_and_amount",
+          "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        }
+      ],
+      "alternatives": [
+        {
+          "category": "Personal transfer",
+          "score": 0.08
+        },
+        {
+          "category": "Shopping",
+          "score": 0.03
+        }
+      ],
+      "suggested_buttons": [],
+      "used_tool": true,
+      "tool_trace": [
+        {
+          "tool": "get_receiver_fingerprint",
+          "result_summary": "11 senders found"
+        }
+      ]
+    }
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261107_000044",
+      "timestamp": "2026-11-07T17:40:00+07:00",
+      "amount": 185000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_SIEUTHI_AN",
+        "display_name": "Sieu Thi An Phat",
+        "merchant_id": "MM_SIEUTHI_AN",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Groceries & Market",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261114_000045",
+      "timestamp": "2026-11-14T17:55:00+07:00",
+      "amount": 62000,
+      "channel": "VIETQR_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970407_5550001003",
+        "display_name": "Tap Hoa Bay Ba",
+        "merchant_id": null,
+        "mcc": "5411",
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Groceries & Market",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261119_000046",
+      "timestamp": "2026-11-19T06:30:00+07:00",
+      "amount": 98000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970436_0345678123",
+        "display_name": "NGUYEN THI THU",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Groceries & Market",
+    "is_suggested": false,
+    "source": "AI",
+    "confidence": "high",
+    "decision": {
+      "transaction_id": "TXN_20261119_000046",
+      "category": "Groceries & Market",
+      "confidence": "high",
+      "confidence_score": 0.85,
+      "action": "AUTO_LABELED",
+      "reason": "22 senders paid this receiver and 77% labeled it Groceries & Market. The amount and time fit.",
+      "clues_used": [
+        {
+          "clue": "crowd_labels",
+          "detail": "77% Groceries & Market across 22 distinct senders",
+          "weight": "strong"
+        },
+        {
+          "clue": "time_and_amount",
+          "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        }
+      ],
+      "alternatives": [
+        {
+          "category": "Food & Drink",
+          "score": 0.04
+        },
+        {
+          "category": "Personal transfer",
+          "score": 0.03
+        }
+      ],
+      "suggested_buttons": [],
+      "used_tool": true,
+      "tool_trace": [
+        {
+          "tool": "get_receiver_fingerprint",
+          "result_summary": "22 senders found"
+        }
+      ]
+    }
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261123_000047",
+      "timestamp": "2026-11-23T18:10:00+07:00",
+      "amount": 135000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_MINIMART_24",
+        "display_name": "Minimart 24h",
+        "merchant_id": "MM_MINIMART_24",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Groceries & Market",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261103_000048",
+      "timestamp": "2026-11-03T08:15:00+07:00",
+      "amount": 85000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_XANH_TAXI",
+        "display_name": "Xanh Taxi",
+        "merchant_id": "MM_XANH_TAXI",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Transport",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261107_000049",
+      "timestamp": "2026-11-07T07:50:00+07:00",
+      "amount": 100000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_XANGDAU_PV",
+        "display_name": "Petrol Station PV",
+        "merchant_id": "MM_XANGDAU_PV",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Transport",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261110_000050",
+      "timestamp": "2026-11-10T18:30:00+07:00",
+      "amount": 35000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970415_0356789012",
+        "display_name": "LE MINH KHOA",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Transport",
+    "is_suggested": false,
+    "source": "AI",
+    "confidence": "high",
+    "decision": {
+      "transaction_id": "TXN_20261110_000050",
+      "category": "Transport",
+      "confidence": "high",
+      "confidence_score": 0.84,
+      "action": "AUTO_LABELED",
+      "reason": "16 senders paid this receiver and 75% labeled it Transport. The amount and time fit.",
+      "clues_used": [
+        {
+          "clue": "crowd_labels",
+          "detail": "75% Transport across 16 distinct senders",
+          "weight": "strong"
+        },
+        {
+          "clue": "time_and_amount",
+          "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        }
+      ],
+      "alternatives": [
+        {
+          "category": "Personal transfer",
+          "score": 0.07
+        }
+      ],
+      "suggested_buttons": [],
+      "used_tool": true,
+      "tool_trace": [
+        {
+          "tool": "get_receiver_fingerprint",
+          "result_summary": "16 senders found"
+        }
+      ]
+    }
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261116_000051",
+      "timestamp": "2026-11-16T08:05:00+07:00",
+      "amount": 20000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_PARKING_Q1",
+        "display_name": "Bai Giu Xe Quan 1",
+        "merchant_id": "MM_PARKING_Q1",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Transport",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261121_000052",
+      "timestamp": "2026-11-21T09:00:00+07:00",
+      "amount": 100000,
+      "channel": "VIETQR_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970415_5550001004",
+        "display_name": "Cay Xang Hung Thinh",
+        "merchant_id": null,
+        "mcc": "5541",
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Transport",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261111_000053",
+      "timestamp": "2026-11-11T21:30:00+07:00",
+      "amount": 289000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_ONLINE_VUI",
+        "display_name": "Mua Sam Online Vui",
+        "merchant_id": "MM_ONLINE_VUI",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Shopping",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261117_000054",
+      "timestamp": "2026-11-17T15:00:00+07:00",
+      "amount": 131000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_THOITRANG_MY",
+        "display_name": "Thoi Trang My Anh",
+        "merchant_id": "MM_THOITRANG_MY",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Shopping",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261108_000055",
+      "timestamp": "2026-11-08T20:30:00+07:00",
+      "amount": 120000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_CINE_STAR",
+        "display_name": "Cine Star Cinema",
+        "merchant_id": "MM_CINE_STAR",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Entertainment & Outdoor",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261122_000056",
+      "timestamp": "2026-11-22T21:00:00+07:00",
+      "amount": 80000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_KARAOKE_VUI",
+        "display_name": "Karaoke Vui Ve",
+        "merchant_id": "MM_KARAOKE_VUI",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Entertainment & Outdoor",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261104_000057",
+      "timestamp": "2026-11-04T10:20:00+07:00",
+      "amount": 60000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_NHATHUOC_AN",
+        "display_name": "Nha Thuoc An Khang",
+        "merchant_id": "MM_NHATHUOC_AN",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Health & Education",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261110_000058",
+      "timestamp": "2026-11-10T18:00:00+07:00",
+      "amount": 120000,
+      "channel": "MOMO_MERCHANT",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "MOMO_MM_EDU_ENGLISH",
+        "display_name": "Trung Tam Anh Ngu Sunrise",
+        "merchant_id": "MM_EDU_ENGLISH",
+        "mcc": null,
+        "account_type_hint": "MERCHANT"
+      },
+      "context": {
+        "transfer_message": "thanh toan",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Health & Education",
+    "is_suggested": false,
+    "source": "lookup",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261109_000059",
+      "timestamp": "2026-11-09T21:15:00+07:00",
+      "amount": 150000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970415_0912345678",
+        "display_name": "PHAM THI LAN",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC tra tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "AUTO_LABELED",
+    "category": "Personal transfer",
+    "is_suggested": false,
+    "source": "memory",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261119_000060",
+      "timestamp": "2026-11-19T22:00:00+07:00",
+      "amount": 100000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970407_0923456781",
+        "display_name": "TRAN BICH NGOC",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC tra tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "USER_LABELED",
+    "category": "Personal transfer",
+    "is_suggested": false,
+    "source": "user",
+    "confidence": "high",
+    "decision": null
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261112_000061",
+      "timestamp": "2026-11-12T13:40:00+07:00",
+      "amount": 60000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970422_0900555111",
+        "display_name": "DO THI NGOC",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "UNCLASSIFIED",
+    "category": null,
+    "is_suggested": false,
+    "source": "AI",
+    "confidence": "low",
+    "decision": {
+      "transaction_id": "TXN_20261112_000061",
+      "category": null,
+      "confidence": "low",
+      "confidence_score": 0.34,
+      "action": "UNCLASSIFIED",
+      "reason": "Only 5 senders and their labels disagree. Message and name give no clue.",
+      "clues_used": [
+        {
+          "clue": "crowd_labels",
+          "detail": "5 distinct senders",
+          "weight": "weak"
+        }
+      ],
+      "alternatives": [],
+      "suggested_buttons": [
+        "Food & Drink",
+        "Personal transfer",
+        "Groceries & Market"
+      ],
+      "used_tool": true,
+      "tool_trace": [
+        {
+          "tool": "get_receiver_fingerprint",
+          "result_summary": "5 senders found"
+        }
+      ]
+    }
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261120_000062",
+      "timestamp": "2026-11-20T19:20:00+07:00",
+      "amount": 45000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970441_0900666222",
+        "display_name": "TRUONG VAN DAT",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "UNCLASSIFIED",
+    "category": null,
+    "is_suggested": false,
+    "source": "AI",
+    "confidence": "low",
+    "decision": {
+      "transaction_id": "TXN_20261120_000062",
+      "category": null,
+      "confidence": "low",
+      "confidence_score": 0.28,
+      "action": "UNCLASSIFIED",
+      "reason": "Only 3 senders and their labels disagree. Message and name give no clue.",
+      "clues_used": [
+        {
+          "clue": "crowd_labels",
+          "detail": "3 distinct senders",
+          "weight": "weak"
+        }
+      ],
+      "alternatives": [],
+      "suggested_buttons": [
+        "Personal transfer",
+        "Food & Drink",
+        "Transport"
+      ],
+      "used_tool": true,
+      "tool_trace": [
+        {
+          "tool": "get_receiver_fingerprint",
+          "result_summary": "3 senders found"
+        }
+      ]
+    }
+  },
+  {
+    "transaction": {
+      "transaction_id": "TXN_20261124_000063",
+      "timestamp": "2026-11-24T10:05:00+07:00",
+      "amount": 120000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970436_0900777333",
+        "display_name": "BUI THANH TAM",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    },
+    "state": "UNCLASSIFIED",
+    "category": null,
+    "is_suggested": false,
+    "source": "AI",
+    "confidence": "low",
+    "decision": {
+      "transaction_id": "TXN_20261124_000063",
+      "category": null,
+      "confidence": "low",
+      "confidence_score": 0.15,
+      "action": "UNCLASSIFIED",
+      "reason": "No crowd data for this receiver. Message and name give no clue.",
+      "clues_used": [
+        {
+          "clue": "crowd_labels",
+          "detail": "0 distinct senders",
+          "weight": "weak"
+        }
+      ],
+      "alternatives": [],
+      "suggested_buttons": [
+        "Food & Drink",
+        "Groceries & Market",
+        "Personal transfer"
+      ],
+      "used_tool": true,
+      "tool_trace": [
+        {
+          "tool": "get_receiver_fingerprint",
+          "result_summary": "no crowd data"
+        }
+      ]
+    }
+  }
+]

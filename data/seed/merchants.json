@@ -1,0 +1,97 @@
+[
+  {
+    "merchant_id": "MM_COMTAM_99",
+    "name": "Com Tam 99",
+    "category": "Food & Drink"
+  },
+  {
+    "merchant_id": "MM_BANHMI_LAN",
+    "name": "Banh Mi Co Lan",
+    "category": "Food & Drink"
+  },
+  {
+    "merchant_id": "MM_TRASUA_BOBO",
+    "name": "Tra Sua Bobo",
+    "category": "Food & Drink"
+  },
+  {
+    "merchant_id": "MM_PHO_THIN",
+    "name": "Pho Thin 24h",
+    "category": "Food & Drink"
+  },
+  {
+    "merchant_id": "MM_CAFE_NHAXUA",
+    "name": "Cafe Nha Xua",
+    "category": "Food & Drink"
+  },
+  {
+    "merchant_id": "MM_MINIMART_24",
+    "name": "Minimart 24h",
+    "category": "Groceries & Market"
+  },
+  {
+    "merchant_id": "MM_SIEUTHI_AN",
+    "name": "Sieu Thi An Phat",
+    "category": "Groceries & Market"
+  },
+  {
+    "merchant_id": "MM_XANH_TAXI",
+    "name": "Xanh Taxi",
+    "category": "Transport"
+  },
+  {
+    "merchant_id": "MM_XANGDAU_PV",
+    "name": "Petrol Station PV",
+    "category": "Transport"
+  },
+  {
+    "merchant_id": "MM_PARKING_Q1",
+    "name": "Bai Giu Xe Quan 1",
+    "category": "Transport"
+  },
+  {
+    "merchant_id": "MM_ONLINE_VUI",
+    "name": "Mua Sam Online Vui",
+    "category": "Shopping"
+  },
+  {
+    "merchant_id": "MM_THOITRANG_MY",
+    "name": "Thoi Trang My Anh",
+    "category": "Shopping"
+  },
+  {
+    "merchant_id": "MM_CINE_STAR",
+    "name": "Cine Star Cinema",
+    "category": "Entertainment & Outdoor"
+  },
+  {
+    "merchant_id": "MM_KARAOKE_VUI",
+    "name": "Karaoke Vui Ve",
+    "category": "Entertainment & Outdoor"
+  },
+  {
+    "merchant_id": "MM_NHATHUOC_AN",
+    "name": "Nha Thuoc An Khang",
+    "category": "Health & Education"
+  },
+  {
+    "merchant_id": "MM_EDU_ENGLISH",
+    "name": "Trung Tam Anh Ngu Sunrise",
+    "category": "Health & Education"
+  },
+  {
+    "merchant_id": "MM_DIEN_LUC",
+    "name": "Dien Luc TP HCM",
+    "category": "Bills & Utilities"
+  },
+  {
+    "merchant_id": "MM_INTERNET_FIBER",
+    "name": "Internet Fiber HCM",
+    "category": "Bills & Utilities"
+  },
+  {
+    "merchant_id": "MM_TOPUP_PHONE",
+    "name": "Nap Dien Thoai",
+    "category": "Bills & Utilities"
+  }
+]

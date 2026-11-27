@@ -1,0 +1,294 @@
+[
+  {
+    "receiver_id": "BANK_970436_0123456789",
+    "distinct_senders": 38,
+    "label_counts": {
+      "Food & Drink": 27,
+      "Personal transfer": 9,
+      "Shopping": 2
+    },
+    "typical_amount_range": [
+      30000,
+      60000
+    ],
+    "peak_hours": [
+      11,
+      12,
+      18
+    ],
+    "message_keywords": {
+      "com": 14,
+      "tra sua": 6,
+      "cafe": 3
+    }
+  },
+  {
+    "receiver_id": "BANK_970415_0905111222",
+    "distinct_senders": 6,
+    "label_counts": {
+      "Personal transfer": 3,
+      "Food & Drink": 2,
+      "Shopping": 1
+    },
+    "typical_amount_range": [
+      20000,
+      150000
+    ],
+    "peak_hours": [
+      9,
+      15,
+      20
+    ],
+    "message_keywords": {
+      "chuyen tien": 4
+    }
+  },
+  {
+    "receiver_id": "BANK_970407_0988777666",
+    "distinct_senders": 30,
+    "label_counts": {
+      "Food & Drink": 11,
+      "Shopping": 10,
+      "Personal transfer": 9
+    },
+    "typical_amount_range": [
+      50000,
+      300000
+    ],
+    "peak_hours": [
+      12,
+      19,
+      21
+    ],
+    "message_keywords": {
+      "ck": 8,
+      "tien": 5
+    }
+  },
+  {
+    "receiver_id": "BANK_970407_0334455661",
+    "distinct_senders": 25,
+    "label_counts": {
+      "Food & Drink": 20,
+      "Personal transfer": 3,
+      "Groceries & Market": 2
+    },
+    "typical_amount_range": [
+      40000,
+      70000
+    ],
+    "peak_hours": [
+      11,
+      12,
+      13
+    ],
+    "message_keywords": {
+      "com": 9,
+      "mon": 4
+    }
+  },
+  {
+    "receiver_id": "BANK_970418_0765432101",
+    "distinct_senders": 11,
+    "label_counts": {
+      "Food & Drink": 7,
+      "Personal transfer": 3,
+      "Shopping": 1
+    },
+    "typical_amount_range": [
+      30000,
+      60000
+    ],
+    "peak_hours": [
+      7,
+      8,
+      15,
+      16
+    ],
+    "message_keywords": {
+      "cafe": 4
+    }
+  },
+  {
+    "receiver_id": "BANK_970436_0345678123",
+    "distinct_senders": 22,
+    "label_counts": {
+      "Groceries & Market": 17,
+      "Food & Drink": 3,
+      "Personal transfer": 2
+    },
+    "typical_amount_range": [
+      60000,
+      200000
+    ],
+    "peak_hours": [
+      5,
+      6,
+      17
+    ],
+    "message_keywords": {
+      "rau": 7,
+      "cho": 5
+    }
+  },
+  {
+    "receiver_id": "BANK_970415_0356789012",
+    "distinct_senders": 16,
+    "label_counts": {
+      "Transport": 12,
+      "Personal transfer": 4
+    },
+    "typical_amount_range": [
+      20000,
+      60000
+    ],
+    "peak_hours": [
+      7,
+      8,
+      17,
+      18
+    ],
+    "message_keywords": {
+      "xe": 5
+    }
+  },
+  {
+    "receiver_id": "BANK_970422_0987000111",
+    "distinct_senders": 6,
+    "label_counts": {
+      "Housing & Rent": 5,
+      "Personal transfer": 1
+    },
+    "typical_amount_range": [
+      1800000,
+      2500000
+    ],
+    "peak_hours": [
+      8,
+      9
+    ],
+    "message_keywords": {
+      "tien nha": 4
+    }
+  },
+  {
+    "receiver_id": "BANK_970415_0912345678",
+    "distinct_senders": 3,
+    "label_counts": {
+      "Personal transfer": 3
+    },
+    "typical_amount_range": [
+      50000,
+      300000
+    ],
+    "peak_hours": [
+      20,
+      21,
+      22
+    ],
+    "message_keywords": {}
+  },
+  {
+    "receiver_id": "BANK_970407_0923456781",
+    "distinct_senders": 4,
+    "label_counts": {
+      "Personal transfer": 3,
+      "Food & Drink": 1
+    },
+    "typical_amount_range": [
+      50000,
+      200000
+    ],
+    "peak_hours": [
+      19,
+      21,
+      22
+    ],
+    "message_keywords": {}
+  },
+  {
+    "receiver_id": "BANK_970436_0934567812",
+    "distinct_senders": 2,
+    "label_counts": {
+      "Personal transfer": 2
+    },
+    "typical_amount_range": [
+      100000,
+      500000
+    ],
+    "peak_hours": [
+      20,
+      22
+    ],
+    "message_keywords": {}
+  },
+  {
+    "receiver_id": "BANK_970418_0945678123",
+    "distinct_senders": 1,
+    "label_counts": {
+      "Personal transfer": 1
+    },
+    "typical_amount_range": [
+      200000,
+      200000
+    ],
+    "peak_hours": [
+      21
+    ],
+    "message_keywords": {}
+  },
+  {
+    "receiver_id": "BANK_970422_0956781234",
+    "distinct_senders": 3,
+    "label_counts": {
+      "Personal transfer": 2,
+      "Shopping": 1
+    },
+    "typical_amount_range": [
+      50000,
+      300000
+    ],
+    "peak_hours": [
+      19,
+      20
+    ],
+    "message_keywords": {}
+  },
+  {
+    "receiver_id": "BANK_970422_0900555111",
+    "distinct_senders": 5,
+    "label_counts": {
+      "Food & Drink": 2,
+      "Personal transfer": 2,
+      "Groceries & Market": 1
+    },
+    "typical_amount_range": [
+      30000,
+      120000
+    ],
+    "peak_hours": [
+      12,
+      19
+    ],
+    "message_keywords": {
+      "chuyen tien": 2
+    }
+  },
+  {
+    "receiver_id": "BANK_970441_0900666222",
+    "distinct_senders": 3,
+    "label_counts": {
+      "Personal transfer": 1,
+      "Food & Drink": 1,
+      "Transport": 1
+    },
+    "typical_amount_range": [
+      40000,
+      100000
+    ],
+    "peak_hours": [
+      18
+    ],
+    "message_keywords": {}
+  }
+]
