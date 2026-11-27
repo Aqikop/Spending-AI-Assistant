@@ -56,7 +56,10 @@ def test_transitions() -> None:
     assert can_transition(State.UNCLASSIFIED, State.USER_LABELED)
     assert can_transition(State.AUTO_LABELED, State.USER_LABELED)
     assert not can_transition(State.USER_LABELED, State.UNCLASSIFIED)
-
+    # Aging: UNCLASSIFIED becomes AUTO_LABELED (category Other, is_suggested)
+    assert can_transition(State.UNCLASSIFIED, State.AUTO_LABELED)
+    # Nothing goes back to UNCLASSIFIED, and a labeled item cannot be aged again
+    assert not can_transition(State.AUTO_LABELED, State.UNCLASSIFIED)
 
 def test_transaction_in_parses_spec_example_and_keeps_offset() -> None:
     txn = TransactionIn.model_validate(EXAMPLE_TXN)
