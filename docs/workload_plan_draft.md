@@ -31,23 +31,32 @@ Handoffs that matter:
 
 ## 2. Decisions to lock on Day 1 (30 min, all three)
 
-The documents disagree in places. The workflow draft is newer, so I followed it. **[Confirm]** each.
+Most decisions from the first draft of this plan are now applied in `tech_stack_and_conventions.md`. The table shows what that file says today. The sync confirms them and closes the open rows below the table.
 
-| # | Topic | Conflict | Plan assumes |
+| # | Topic | Now in the tech stack | Where | Status |
+|---|---|---|---|---|
+| 1 | AI step shape (open item 8.1) | **Option 2: tool call.** One tool, `get_receiver_fingerprint`, at most one call per transaction. Up to 2 AI calls per transaction | Sections 1, 7 | Working assumption, **[Confirm]** |
+| 2 | Rules fallback | **None.** No `RulesEngine`. Provider chain is Gemini, then Bedrock, then `AIUnavailableError`. Replay mode returns `AI_REQUIRED` for custom input | 5.3 rule 16, 6, 8 | Applied |
+| 3 | `on_labeled` hook | **Dropped**, no Observer or Null Object. Flow 2 reads labeled transactions with a query | 4, 5.5 | Applied |
+| 4 | New API surface | `POST /advice`, `GET /vouchers`, `PUT /profile`, plus models `AdviceOut`, `VoucherOut`, `ProfileIn/Out`, `CategoryRow`, `ErrorOut`. `AdviceService` added | 12 | Applied as stubs. A publishes the OpenAPI page on Day 1 |
+| 5 | Guard reads crowd numbers from the DB | **Yes**, never from the AI answer | 5.2 rule 8, 12.3 guard stub | Applied |
+| 6 | `own_label_for_receiver` | **Dropped.** `used_tool` added to `Decision`. `receiver_id` added to the bundle (code side only, used by the tool) | 11, 12.1 | Decided in the tech stack. `agent_io_spec.md` is not updated yet |
+| 7 | When AI is unavailable | HTTP 503 with `ErrorOut` (`AI_UNAVAILABLE` or `AI_REQUIRED`). Nothing is saved as a label. UI shows retry. Errors live in `domain/errors.py` | 5.3 rule 16, 12.1, 12.2 | Applied |
+| 8 | `SUGGESTED` storage | Flag `is_suggested` on `LabeledTransaction` (stored as `AUTO_LABELED`) | 12.1 | Applied |
+| 9 | Fixed costs (not cuttable) | Housing & Rent, Bills & Utilities, Health & Education. Defined once in `domain/categories.py` | 12.1 | Applied |
+| 10 | Thresholds | `SCORE_HIGH` 0.80, `SCORE_MEDIUM` 0.50, `MIN_SENDERS_HIGH` 15, `MIN_AGREEMENT_HIGH` 0.60, `ADVICE_MAX_VOUCHERS` 3. Promotion values lowered for the demo | 9 | Draft values. Tune on seed data on Day 4 |
+| 11 | Sender name for `strip_sender_name` | Comes from `users.display_name` | 12.3 | Applied |
+| 12 | Monthly income | Preset per demo user, editable through `PUT /profile` | 12.1 | Applied. Read path is open (row b below) |
+| 13 | Budget alert (<20% left) | **Out of scope.** The advice flow replaces it | 12 | Applied |
+
+**Still open after the sync**
+
+| # | Open item | Plan assumes | Owner, when |
 |---|---|---|---|
-| 1 | AI step shape (open item 8.1) | Tech stack leaves it open | **Option 2: tool call** (workflow decision 1). One tool, max one call per transaction |
-| 2 | Rules fallback | Tech stack has `RulesEngine` and "falls through to rules" (rule 16, section 6). Workflow decision 4 says no rules-based labels | **No `RulesEngine`.** Provider chain is Gemini, then Bedrock, then "AI unavailable". Replay mode shows "AI required" for custom input. Update tech stack sections 3, 4, 5.3, 6, 8 |
-| 3 | `on_labeled` hook | Workflow uses it as the link between flows. Tech stack defers it | **Skip the hook.** Flow 2 reads the category table with a query on labeled transactions, so no hook is needed. Fewer moving parts |
-| 4 | New API surface | Workflow adds advice, vouchers, income. Section 12 has none of them | Add `POST /advice`, `GET /vouchers`, `PUT /profile` (monthly income), models `AdviceOut`, `VoucherOut`, `ProfileIn/Out`. Done by A in its own commit, as rule 5.5 requires |
-| 5 | Guard reads crowd numbers from DB | Workflow marks it [Confirm] | **Yes**, the guard reads `distinct_senders` and agreement from the DB, not from the AI answer |
-| 6 | `own_label_for_receiver` | Always null at the AI step | **Drop it** from the bundle |
-| 7 | When AI is unavailable | Workflow: stays pending, UI says "AI unavailable, try again" | Route returns a clear error code. Nothing is saved as a label. UI shows retry |
-| 8 | `SUGGESTED` storage | Open | Stored as `AUTO_LABELED` with `is_suggested = true` |
-| 9 | Fixed costs (not cuttable) | Open | Housing & Rent, Bills & Utilities, Health & Education |
-| 10 | Thresholds | Open | Draft values from section 9 of the tech stack. Tune on seed data on Day 4 |
-| 11 | Sender name for `strip_sender_name` | Input JSON has only `user_id` | Demo user has a `display_name` stored in `users`. Strip that |
-| 12 | Monthly income | Open | Preset per demo user, editable in the UI |
-| 13 | Budget alert (<20% left) | In `agent_context.md`, absent from the workflow draft | **Out of scope.** Advice flow replaces it |
+| a | `agent_io_spec.md` still has `own_label_for_receiver` and no `used_tool` or `receiver_id` | Update it in its own commit | A, Day 1 |
+| b | Where the UI reads the current monthly income. Only `PUT /profile` exists | **[Confirm]** add `GET /profile`, so B can show and edit income | A, Day 1 (B needs it on Day 2) |
+| c | File names. The tech stack uses `advice/tables.py`, `advice/generator.py`, `engines/tools.py` and `domain/errors.py`, and says `llm` is used by `engines/live.py` and `advice/generator.py` | The tech stack names win. The skeleton and `folder_structure.md` still use older names (`summary.py`, `advisor.py`, `llm/tools.py`, no `errors.py`) and need renaming | A, Day 1 |
+| d | Values still marked "to be decided": `ADVICE_MIN_LABELED`, `ADVICE_MAX_UNCLASSIFIED_SHARE`, `UNCLASSIFIED_AGING_DAYS`, `PROMOTION_MIN_SENDERS`, `PROMOTION_MIN_AGREEMENT` | Choose them on Day 4 together with row 10, against the seed data | C, Day 4 |
 
 ---
 
@@ -261,7 +270,7 @@ Working rhythm: 10-minute standup at the start of each day, 10-minute check at t
 
 ## 6. Open items still needed from the team
 
-1. Confirm the 13 assumptions in section 2.
+1. Confirm the decisions and close the open rows in section 2.
 2. Real submission format and time on Dec 3 (the plan submits Dec 2 evening to be safe).
 3. Minimum labeled transactions N for advice, and N days for aging.
 4. Final thresholds after Day 4 tuning.
