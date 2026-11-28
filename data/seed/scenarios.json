@@ -1,0 +1,126 @@
+[
+  {
+    "scenario_id": "clear",
+    "title": "Clear evidence",
+    "description": "38 senders paid this receiver and 71% labeled it Food & Drink. Expect a silent auto-label.",
+    "expected": {
+      "state": "AUTO_LABELED",
+      "category": "Food & Drink",
+      "confidence": "high",
+      "is_suggested": false
+    },
+    "transaction": {
+      "transaction_id": "TXN_SCENARIO_CLEAR",
+      "timestamp": "2026-11-25T12:14:30+07:00",
+      "amount": 45000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970436_0123456789",
+        "display_name": "NGUYEN THI HOA",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    }
+  },
+  {
+    "scenario_id": "weak",
+    "title": "Weak evidence",
+    "description": "Only 6 senders with scattered labels. Expect to ask the user.",
+    "expected": {
+      "state": "UNCLASSIFIED",
+      "category": null,
+      "confidence": "low",
+      "is_suggested": false
+    },
+    "transaction": {
+      "transaction_id": "TXN_SCENARIO_WEAK",
+      "timestamp": "2026-11-25T20:41:10+07:00",
+      "amount": 80000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970415_0905111222",
+        "display_name": "HOANG VAN NAM",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen tien",
+        "city": "Ho Chi Minh"
+      }
+    }
+  },
+  {
+    "scenario_id": "conflicting",
+    "title": "Conflicting labels",
+    "description": "30 senders split almost evenly between three labels. A wrong crowd label must not spread.",
+    "expected": {
+      "state": "UNCLASSIFIED",
+      "category": null,
+      "confidence": "low",
+      "is_suggested": false
+    },
+    "transaction": {
+      "transaction_id": "TXN_SCENARIO_CONFLICTING",
+      "timestamp": "2026-11-24T19:05:00+07:00",
+      "amount": 120000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970407_0988777666",
+        "display_name": "LE THI HONG",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC ck",
+        "city": "Ho Chi Minh"
+      }
+    }
+  },
+  {
+    "scenario_id": "cold_start",
+    "title": "Cold start",
+    "description": "A brand-new receiver with no crowd data. Expect to ask the user.",
+    "expected": {
+      "state": "UNCLASSIFIED",
+      "category": null,
+      "confidence": "low",
+      "is_suggested": false
+    },
+    "transaction": {
+      "transaction_id": "TXN_SCENARIO_COLD_START",
+      "timestamp": "2026-11-25T08:10:00+07:00",
+      "amount": 60000,
+      "channel": "VIETQR_P2P",
+      "sender": {
+        "user_id": "USER_001"
+      },
+      "receiver": {
+        "receiver_id": "BANK_970441_0911222333",
+        "display_name": "NGUYEN VAN PHUC",
+        "merchant_id": null,
+        "mcc": null,
+        "account_type_hint": "PERSONAL"
+      },
+      "context": {
+        "transfer_message": "TRAN MINH TRAC chuyen khoan",
+        "city": "Ho Chi Minh"
+      }
+    }
+  }
+]

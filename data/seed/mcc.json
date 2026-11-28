@@ -1,0 +1,77 @@
+[
+  {
+    "mcc": "5812",
+    "description": "Eating places and restaurants",
+    "category": "Food & Drink"
+  },
+  {
+    "mcc": "5814",
+    "description": "Fast food restaurants",
+    "category": "Food & Drink"
+  },
+  {
+    "mcc": "5411",
+    "description": "Grocery stores and supermarkets",
+    "category": "Groceries & Market"
+  },
+  {
+    "mcc": "5499",
+    "description": "Miscellaneous food stores",
+    "category": "Groceries & Market"
+  },
+  {
+    "mcc": "4121",
+    "description": "Taxis and rideshare",
+    "category": "Transport"
+  },
+  {
+    "mcc": "4111",
+    "description": "Local commuter transport",
+    "category": "Transport"
+  },
+  {
+    "mcc": "5541",
+    "description": "Service stations",
+    "category": "Transport"
+  },
+  {
+    "mcc": "5651",
+    "description": "Family clothing stores",
+    "category": "Shopping"
+  },
+  {
+    "mcc": "5311",
+    "description": "Department stores",
+    "category": "Shopping"
+  },
+  {
+    "mcc": "7832",
+    "description": "Motion picture theaters",
+    "category": "Entertainment & Outdoor"
+  },
+  {
+    "mcc": "5912",
+    "description": "Drug stores and pharmacies",
+    "category": "Health & Education"
+  },
+  {
+    "mcc": "8220",
+    "description": "Colleges and training",
+    "category": "Health & Education"
+  },
+  {
+    "mcc": "4900",
+    "description": "Utilities",
+    "category": "Bills & Utilities"
+  },
+  {
+    "mcc": "4814",
+    "description": "Telecommunication services",
+    "category": "Bills & Utilities"
+  },
+  {
+    "mcc": "6513",
+    "description": "Real estate rentals",
+    "category": "Housing & Rent"
+  }
+]

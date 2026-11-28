@@ -1,0 +1,66 @@
+[
+  {
+    "voucher_id": "VCH_FOOD_01",
+    "title": "20% off rice meals at Com Tam 99",
+    "category": "Food & Drink",
+    "merchant_name": "Com Tam 99",
+    "description": "20% off, up to 20,000d, weekdays",
+    "valid_until": "2026-12-31"
+  },
+  {
+    "voucher_id": "VCH_FOOD_02",
+    "title": "Buy 1 get 1 milk tea at Tra Sua Bobo",
+    "category": "Food & Drink",
+    "merchant_name": "Tra Sua Bobo",
+    "description": "Second cup free, afternoons",
+    "valid_until": "2026-12-31"
+  },
+  {
+    "voucher_id": "VCH_GROC_01",
+    "title": "50,000d off at Sieu Thi An Phat",
+    "category": "Groceries & Market",
+    "merchant_name": "Sieu Thi An Phat",
+    "description": "50,000d off orders from 400,000d",
+    "valid_until": "2026-12-31"
+  },
+  {
+    "voucher_id": "VCH_TRAN_01",
+    "title": "30% off Xanh Taxi rides",
+    "category": "Transport",
+    "merchant_name": "Xanh Taxi",
+    "description": "30% off, up to 30,000d per ride",
+    "valid_until": "2026-12-31"
+  },
+  {
+    "voucher_id": "VCH_SHOP_01",
+    "title": "100,000d off at Mua Sam Online Vui",
+    "category": "Shopping",
+    "merchant_name": "Mua Sam Online Vui",
+    "description": "100,000d off orders from 500,000d",
+    "valid_until": "2026-12-31"
+  },
+  {
+    "voucher_id": "VCH_SHOP_02",
+    "title": "15% off at Thoi Trang My Anh",
+    "category": "Shopping",
+    "merchant_name": "Thoi Trang My Anh",
+    "description": "15% off one item",
+    "valid_until": "2026-12-31"
+  },
+  {
+    "voucher_id": "VCH_ENTE_01",
+    "title": "2-for-1 tickets at Cine Star Cinema",
+    "category": "Entertainment & Outdoor",
+    "merchant_name": "Cine Star Cinema",
+    "description": "Tuesdays only",
+    "valid_until": "2026-12-31"
+  },
+  {
+    "voucher_id": "VCH_ENTE_02",
+    "title": "20% off at Karaoke Vui Ve",
+    "category": "Entertainment & Outdoor",
+    "merchant_name": "Karaoke Vui Ve",
+    "description": "20% off, Monday to Thursday",
+    "valid_until": "2026-12-31"
+  }
+]
