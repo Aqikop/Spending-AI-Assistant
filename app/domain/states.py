@@ -37,7 +37,6 @@ class Source(StrEnum):
 # Aging also moves UNCLASSIFIED to AUTO_LABELED (category Other, is_suggested = True).
 TRANSITIONS: dict[State, frozenset[State]] = {
     State.AUTO_LABELED: frozenset({State.USER_LABELED}),
-    State.UNCLASSIFIED: frozenset({State.USER_LABELED}),
     State.UNCLASSIFIED: frozenset({State.USER_LABELED, State.AUTO_LABELED}),
     State.USER_LABELED: frozenset({State.USER_LABELED}),
 }
