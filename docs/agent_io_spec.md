@@ -1,7 +1,7 @@
 # MoMo Auto Spending Categorization Agent: Input/Output Spec (Draft v2)
 
 > Companion to `agent_context.md`, `Workflow_draft.md` (replaces `architecture.md`), `tech_stack_and_conventions.md` and `workload_plan_draft.md`. This file records the contract for the AI decision step: what goes in, what the AI returns, and what the code turns it into. All data is simulated for the contest demo.
->
+> 
 > v2 aligns this file with the decisions already applied in the other docs. See section 9 for the list of changes from v1.
 
 ---
@@ -10,18 +10,18 @@
 
 Clothing was merged into Shopping. The list is kept short because weak clues in group 3 cannot separate close labels. The list lives in one enum (`domain/categories.py`), and `allowed_categories` is generated from it, never retyped.
 
-| # | Label | Notes |
-|---|---|---|
-| 1 | Food & Drink | Meals, street food, cafes, milk tea |
-| 2 | Groceries & Market | Chợ, tạp hóa, supermarkets |
-| 3 | Transport | Grab, fuel, parking, bus and train tickets |
-| 4 | Shopping | Online and general retail, including clothing |
-| 5 | Entertainment & Outdoor | Film, games, karaoke, travel activities |
-| 6 | Bills & Utilities | Electricity, water, internet, phone top-up |
-| 7 | Housing & Rent | Rent and building fees |
-| 8 | Health & Education | Pharmacy, clinic, tuition, courses |
-| 9 | Personal transfer | Genuine person-to-person money |
-| 10 | Other | Fallback, and where stale UNCLASSIFIED items land after N days |
+| #   | Label                   | Notes                                                          |
+| --- | ----------------------- | -------------------------------------------------------------- |
+| 1   | Food & Drink            | Meals, street food, cafes, milk tea                            |
+| 2   | Groceries & Market      | Chợ, tạp hóa, supermarkets                                     |
+| 3   | Transport               | Grab, fuel, parking, bus and train tickets                     |
+| 4   | Shopping                | Online and general retail, including clothing                  |
+| 5   | Entertainment & Outdoor | Film, games, karaoke, travel activities                        |
+| 6   | Bills & Utilities       | Electricity, water, internet, phone top-up                     |
+| 7   | Housing & Rent          | Rent and building fees                                         |
+| 8   | Health & Education      | Pharmacy, clinic, tuition, courses                             |
+| 9   | Personal transfer       | Genuine person-to-person money                                 |
+| 10  | Other                   | Fallback, and where stale UNCLASSIFIED items land after N days |
 
 For group 3 (personal QR / P2P), the realistic outputs are Food & Drink, Groceries & Market, Transport, Housing & Rent, and Personal transfer. The other labels mostly arrive through merchant and MCC lookups (groups 1 and 2).
 
@@ -89,7 +89,7 @@ The first package does **not** contain crowd evidence. That detail is fetched on
 
 ## 4. The tool: `get_receiver_fingerprint`
 
-The AI may call this tool only once per transaction. The tool takes no free-text argument: code supplies the `receiver_id` from the bundle.
+The AI may call this tool only once per transaction. The tool takes no argument from the AI: the engine supplies the `receiver_id` from the code side of the bundle.
 
 Tool result (`CrowdStats`, aggregates only, never raw messages from other users):
 
@@ -150,14 +150,14 @@ The engine validates this against the `Decision` schema:
 
 The guard assigns the final level and action. It reads `distinct_senders` and crowd agreement **from the database**, never from the AI's answer. Reason: the AI may answer without calling the tool, but the guard still needs those numbers.
 
-| Rule | Effect |
-|---|---|
-| Score 0.80 or above | Candidate for High |
-| Score 0.50 to 0.79 | Medium: `SUGGESTED` |
-| Score below 0.50 | Low: `UNCLASSIFIED`, category forced to `null` |
-| `distinct_senders` below `MIN_SENDERS_HIGH` (15) | Cannot be High |
-| Crowd agreement below `MIN_AGREEMENT_HIGH` (0.60) | Cannot be High |
-| Conflicting crowd labels | Capped at Low |
+| Rule                                              | Effect                                         |
+| ------------------------------------------------- | ---------------------------------------------- |
+| Score 0.80 or above                               | Candidate for High                             |
+| Score 0.50 to 0.79                                | Medium: `SUGGESTED`                            |
+| Score below 0.50                                  | Low: `UNCLASSIFIED`, category forced to `null` |
+| `distinct_senders` below `MIN_SENDERS_HIGH` (15)  | Cannot be High                                 |
+| Crowd agreement below `MIN_AGREEMENT_HIGH` (0.60) | Cannot be High                                 |
+| Conflicting crowd labels                          | Capped at Low                                  |
 
 All thresholds live in `config.py`. Draft values are tuned on the seed data on Day 4.
 
@@ -221,29 +221,30 @@ The buttons are the top candidates, not all 10 labels, so the tap is quick. `cat
 
 ### Output field reference
 
-| Field | Meaning |
-|---|---|
-| `category` | One of the 10 labels, or `null` when confidence is low |
-| `confidence` | `high`, `medium` or `low`, set by the guard from the score and the crowd numbers |
-| `confidence_score` | 0 to 1 number from the AI, used by the guard and shown in the demo |
-| `action` | `AUTO_LABELED`, `SUGGESTED` or `UNCLASSIFIED`, set by the guard |
-| `reason` | Short explanation shown to judges and, in simple form, to users |
-| `clues_used` | Which evidence the AI relied on and how strongly |
-| `alternatives` | Runner-up categories with scores |
-| `suggested_buttons` | Top candidate labels for the tap prompt |
-| `used_tool` | Whether the AI called `get_receiver_fingerprint` |
-| `tool_trace` | Log of the tool call, shown in the side panel |
-| `proposed_action` | Optional, empty unless open item 8.1 goes to option 3 |
+| Field               | Meaning                                                                          |
+| ------------------- | -------------------------------------------------------------------------------- |
+| `category`          | One of the 10 labels, or `null` when confidence is low                           |
+| `confidence`        | `high`, `medium` or `low`, set by the guard from the score and the crowd numbers |
+| `confidence_score`  | 0 to 1 number from the AI, used by the guard and shown in the demo               |
+| `action`            | `AUTO_LABELED`, `SUGGESTED` or `UNCLASSIFIED`, set by the guard                  |
+| `reason`            | Short explanation shown to judges and, in simple form, to users                  |
+| `clues_used`        | Which evidence the AI relied on and how strongly                                 |
+| `alternatives`      | Runner-up categories with scores                                                 |
+| `suggested_buttons` | Top candidate labels for the tap prompt                                          |
+| `used_tool`         | Whether the AI called `get_receiver_fingerprint`                                 |
+| `tool_trace`        | Log of the tool call, shown in the side panel                                    |
+| `proposed_action`   | Optional, empty unless open item 8.1 goes to option 3                            |
 
 `ask_user` from v1 is removed: a transaction needs a tap prompt exactly when its state is `UNCLASSIFIED`, so a separate flag only repeats that. **[Confirm]**
 
 ### State mapping
 
-| `action` | Stored state | Notes |
-|---|---|---|
-| `AUTO_LABELED` | `AUTO_LABELED` | `is_suggested = false` |
-| `SUGGESTED` | `AUTO_LABELED` | `is_suggested = true`, shown as editable. A user edit becomes `USER_LABELED` |
-| `UNCLASSIFIED` | `UNCLASSIFIED` | Ask later, in a batch sorted by receivers with the most senders. A tap becomes `USER_LABELED` |
+| `action`       | Stored state   | Notes                                                                                                                 |
+| -------------- | -------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `AUTO_LABELED` | `AUTO_LABELED` | `is_suggested = false`                                                                                                |
+| `SUGGESTED`    | `AUTO_LABELED` | `is_suggested = true`, shown as editable. A user edit becomes `USER_LABELED`                                          |
+| `UNCLASSIFIED` | `UNCLASSIFIED` | Ask later, in a batch sorted by receivers with the most senders. A tap becomes `USER_LABELED`                         |
+| AUTO_LABELED   | UNCLASSIFIED   | Aging after N days, items get category Other and `is_suggested = true`. A user edit then makes them `USER_LABELED` \| |
 
 `SUGGESTED` is a display action, not a stored state. Storage uses the flag `is_suggested` on `LabeledTransaction`.
 
@@ -255,30 +256,30 @@ The old "budget check" step is **out of scope**. Labeled transactions are read b
 
 There is **no rules-based fallback**. A guessed label is worse than a pending one.
 
-| Situation | Result |
-|---|---|
+| Situation                                                                     | Result                                                                                                                                       |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | Every provider failed, daily cap hit, or output still invalid after one retry | `AIUnavailableError`, HTTP 503, `ErrorOut` with code `AI_UNAVAILABLE`. Nothing is saved as a label. The UI shows "AI unavailable, try again" |
-| `replay` mode with a custom transaction (no stored answer) | `AIRequiredError`, HTTP 503, code `AI_REQUIRED`. Nothing is saved |
-| `replay` mode with one of the 4 seeded scenarios | Recorded AI answer is returned |
+| `replay` mode with a custom transaction (no stored answer)                    | `AIRequiredError`, HTTP 503, code `AI_REQUIRED`. Nothing is saved                                                                            |
+| `replay` mode with one of the 4 seeded scenarios                              | Recorded AI answer is returned                                                                                                               |
 
 ---
 
 ## 9. Changes from v1
 
-| # | Change | Reason |
-|---|---|---|
-| 1 | `crowd_evidence` removed from the first package and moved to the tool result | Decision 2 in `Workflow_draft.md`: small first package, detail on request |
-| 2 | `vs_receiver_typical_range` moved with it | It needs crowd data |
-| 3 | `own_label_for_receiver` dropped | Always null at this step |
-| 4 | `used_tool` and `tool_trace` added, `receiver_id` added to the bundle (code side only) | The tool needs the id. Option 2 of item 8.1 |
-| 5 | AI returns a proposal. The guard sets `confidence` and `action` | "The LLM proposes, code decides" (rule 8) |
-| 6 | Guard reads crowd numbers from the database, not from the AI answer | Rule 8, and the AI may skip the tool |
-| 7 | Guard rules table added (min senders, min agreement, conflict cap) | Values in `config.py` |
-| 8 | `SUGGESTED` stored as flag `is_suggested` on `AUTO_LABELED` | Decision 8 in `workload_plan_draft.md` |
-| 9 | Budget check and the 20% alert removed | Out of scope, replaced by the advice flow |
-| 10 | `ask_user` removed | Equal to `state == UNCLASSIFIED` |
-| 11 | AI-unavailable behavior added, no rules fallback | Rule 16 |
-| 12 | `Decision` stays permissive, and the guard forces `category = null` on Low | Rule 11 |
+| #   | Change                                                                                 | Reason                                                                    |
+| --- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| 1   | `crowd_evidence` removed from the first package and moved to the tool result           | Decision 2 in `Workflow_draft.md`: small first package, detail on request |
+| 2   | `vs_receiver_typical_range` moved with it                                              | It needs crowd data                                                       |
+| 3   | `own_label_for_receiver` dropped                                                       | Always null at this step                                                  |
+| 4   | `used_tool` and `tool_trace` added, `receiver_id` added to the bundle (code side only) | The tool needs the id. Option 2 of item 8.1                               |
+| 5   | AI returns a proposal. The guard sets `confidence` and `action`                        | "The LLM proposes, code decides" (rule 8)                                 |
+| 6   | Guard reads crowd numbers from the database, not from the AI answer                    | Rule 8, and the AI may skip the tool                                      |
+| 7   | Guard rules table added (min senders, min agreement, conflict cap)                     | Values in `config.py`                                                     |
+| 8   | `SUGGESTED` stored as flag `is_suggested` on `AUTO_LABELED`                            | Decision 8 in `workload_plan_draft.md`                                    |
+| 9   | Budget check and the 20% alert removed                                                 | Out of scope, replaced by the advice flow                                 |
+| 10  | `ask_user` removed                                                                     | Equal to `state == UNCLASSIFIED`                                          |
+| 11  | AI-unavailable behavior added, no rules fallback                                       | Rule 16                                                                   |
+| 12  | `Decision` stays permissive, and the guard forces `category = null` on Low             | Rule 11                                                                   |
 
 ---
 

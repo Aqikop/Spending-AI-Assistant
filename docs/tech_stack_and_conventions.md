@@ -552,6 +552,8 @@ class LiveEngine:
         ...
 
 # app/engines/tools.py
+
+
 def get_receiver_fingerprint(crowd: CrowdRepo, session_id: str, receiver_id: str) -> CrowdStats | None: ...
 def build_tool_registry(crowd: CrowdRepo) -> dict[str, Callable[..., CrowdStats | None]]:
     """Plain dict, name to function. Only get_receiver_fingerprint."""
