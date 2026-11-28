@@ -199,16 +199,21 @@
       "confidence": "high",
       "confidence_score": 0.86,
       "action": "AUTO_LABELED",
-      "reason": "25 senders paid this receiver and 80% labeled it Food & Drink. The amount and time fit.",
+      "reason": "25 senders paid this receiver and 76% labeled it Food & Drink. The amount and time fit.",
       "clues_used": [
         {
           "clue": "crowd_labels",
-          "detail": "80% Food & Drink across 25 distinct senders",
+          "detail": "76% Food & Drink across 25 distinct senders",
           "weight": "strong"
         },
         {
           "clue": "time_and_amount",
           "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        },
+        {
+          "clue": "peak_hour",
+          "detail": "Payment is at one of the receiver's peak hours",
           "weight": "supporting"
         }
       ],
@@ -219,7 +224,7 @@
         },
         {
           "category": "Groceries & Market",
-          "score": 0.02
+          "score": 0.01
         }
       ],
       "suggested_buttons": [],
@@ -936,16 +941,21 @@
       "confidence": "high",
       "confidence_score": 0.88,
       "action": "AUTO_LABELED",
-      "reason": "25 senders paid this receiver and 80% labeled it Food & Drink. The amount and time fit.",
+      "reason": "25 senders paid this receiver and 76% labeled it Food & Drink. The amount and time fit.",
       "clues_used": [
         {
           "clue": "crowd_labels",
-          "detail": "80% Food & Drink across 25 distinct senders",
+          "detail": "76% Food & Drink across 25 distinct senders",
           "weight": "strong"
         },
         {
           "clue": "time_and_amount",
           "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        },
+        {
+          "clue": "peak_hour",
+          "detail": "Payment is at one of the receiver's peak hours",
           "weight": "supporting"
         }
       ],
@@ -956,7 +966,7 @@
         },
         {
           "category": "Groceries & Market",
-          "score": 0.02
+          "score": 0.01
         }
       ],
       "suggested_buttons": [],
@@ -1057,16 +1067,21 @@
       "confidence": "high",
       "confidence_score": 0.87,
       "action": "AUTO_LABELED",
-      "reason": "25 senders paid this receiver and 80% labeled it Food & Drink. The amount and time fit.",
+      "reason": "25 senders paid this receiver and 76% labeled it Food & Drink. The amount and time fit.",
       "clues_used": [
         {
           "clue": "crowd_labels",
-          "detail": "80% Food & Drink across 25 distinct senders",
+          "detail": "76% Food & Drink across 25 distinct senders",
           "weight": "strong"
         },
         {
           "clue": "time_and_amount",
           "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        },
+        {
+          "clue": "peak_hour",
+          "detail": "Payment is at one of the receiver's peak hours",
           "weight": "supporting"
         }
       ],
@@ -1077,7 +1092,7 @@
         },
         {
           "category": "Groceries & Market",
-          "score": 0.02
+          "score": 0.01
         }
       ],
       "suggested_buttons": [],
@@ -1189,12 +1204,17 @@
           "clue": "time_and_amount",
           "detail": "Within the receiver's typical range",
           "weight": "supporting"
+        },
+        {
+          "clue": "peak_hour",
+          "detail": "Payment is at one of the receiver's peak hours",
+          "weight": "supporting"
         }
       ],
       "alternatives": [
         {
           "category": "Personal transfer",
-          "score": 0.08
+          "score": 0.05
         },
         {
           "category": "Shopping",
@@ -1243,16 +1263,21 @@
       "confidence": "high",
       "confidence_score": 0.88,
       "action": "AUTO_LABELED",
-      "reason": "25 senders paid this receiver and 80% labeled it Food & Drink. The amount and time fit.",
+      "reason": "25 senders paid this receiver and 76% labeled it Food & Drink. The amount and time fit.",
       "clues_used": [
         {
           "clue": "crowd_labels",
-          "detail": "80% Food & Drink across 25 distinct senders",
+          "detail": "76% Food & Drink across 25 distinct senders",
           "weight": "strong"
         },
         {
           "clue": "time_and_amount",
           "detail": "Within the receiver's typical range",
+          "weight": "supporting"
+        },
+        {
+          "clue": "peak_hour",
+          "detail": "Payment is at one of the receiver's peak hours",
           "weight": "supporting"
         }
       ],
@@ -1263,7 +1288,7 @@
         },
         {
           "category": "Groceries & Market",
-          "score": 0.02
+          "score": 0.01
         }
       ],
       "suggested_buttons": [],
@@ -1403,12 +1428,17 @@
           "clue": "time_and_amount",
           "detail": "Within the receiver's typical range",
           "weight": "supporting"
+        },
+        {
+          "clue": "peak_hour",
+          "detail": "Payment is at one of the receiver's peak hours",
+          "weight": "supporting"
         }
       ],
       "alternatives": [
         {
           "category": "Personal transfer",
-          "score": 0.08
+          "score": 0.05
         },
         {
           "category": "Shopping",
@@ -1524,16 +1554,21 @@
           "clue": "time_and_amount",
           "detail": "Within the receiver's typical range",
           "weight": "supporting"
+        },
+        {
+          "clue": "peak_hour",
+          "detail": "Payment is at one of the receiver's peak hours",
+          "weight": "supporting"
         }
       ],
       "alternatives": [
         {
           "category": "Food & Drink",
-          "score": 0.04
+          "score": 0.03
         },
         {
           "category": "Personal transfer",
-          "score": 0.03
+          "score": 0.01
         }
       ],
       "suggested_buttons": [],
@@ -1673,12 +1708,17 @@
           "clue": "time_and_amount",
           "detail": "Within the receiver's typical range",
           "weight": "supporting"
+        },
+        {
+          "clue": "peak_hour",
+          "detail": "Payment is at one of the receiver's peak hours",
+          "weight": "supporting"
         }
       ],
       "alternatives": [
         {
           "category": "Personal transfer",
-          "score": 0.07
+          "score": 0.06
         }
       ],
       "suggested_buttons": [],
@@ -2001,9 +2041,9 @@
       "transaction_id": "TXN_20261112_000061",
       "category": null,
       "confidence": "low",
-      "confidence_score": 0.34,
+      "confidence_score": 0.44,
       "action": "UNCLASSIFIED",
-      "reason": "Only 5 senders and their labels disagree. Message and name give no clue.",
+      "reason": "Only 5 senders paid this receiver and 3 labeled it Food & Drink. The evidence is too thin to label silently.",
       "clues_used": [
         {
           "clue": "crowd_labels",
@@ -2014,8 +2054,7 @@
       "alternatives": [],
       "suggested_buttons": [
         "Food & Drink",
-        "Personal transfer",
-        "Groceries & Market"
+        "Personal transfer"
       ],
       "used_tool": true,
       "tool_trace": [
@@ -2068,9 +2107,8 @@
       ],
       "alternatives": [],
       "suggested_buttons": [
-        "Personal transfer",
         "Food & Drink",
-        "Transport"
+        "Personal transfer"
       ],
       "used_tool": true,
       "tool_trace": [

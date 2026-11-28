@@ -4,9 +4,10 @@
     "distinct_senders": 38,
     "label_counts": {
       "Food & Drink": 27,
-      "Personal transfer": 9,
+      "Personal transfer": 6,
       "Shopping": 2
     },
+    "unlabeled": 3,
     "typical_amount_range": [
       30000,
       60000
@@ -26,10 +27,11 @@
     "receiver_id": "BANK_970415_0905111222",
     "distinct_senders": 6,
     "label_counts": {
-      "Personal transfer": 3,
-      "Food & Drink": 2,
+      "Personal transfer": 2,
+      "Food & Drink": 1,
       "Shopping": 1
     },
+    "unlabeled": 2,
     "typical_amount_range": [
       20000,
       150000
@@ -47,10 +49,11 @@
     "receiver_id": "BANK_970407_0988777666",
     "distinct_senders": 30,
     "label_counts": {
-      "Food & Drink": 11,
-      "Shopping": 10,
-      "Personal transfer": 9
+      "Food & Drink": 10,
+      "Shopping": 9,
+      "Personal transfer": 8
     },
+    "unlabeled": 3,
     "typical_amount_range": [
       50000,
       300000
@@ -69,10 +72,11 @@
     "receiver_id": "BANK_970407_0334455661",
     "distinct_senders": 25,
     "label_counts": {
-      "Food & Drink": 20,
+      "Food & Drink": 19,
       "Personal transfer": 3,
-      "Groceries & Market": 2
+      "Groceries & Market": 1
     },
+    "unlabeled": 2,
     "typical_amount_range": [
       40000,
       70000
@@ -92,9 +96,10 @@
     "distinct_senders": 11,
     "label_counts": {
       "Food & Drink": 7,
-      "Personal transfer": 3,
+      "Personal transfer": 2,
       "Shopping": 1
     },
+    "unlabeled": 1,
     "typical_amount_range": [
       30000,
       60000
@@ -102,7 +107,6 @@
     "peak_hours": [
       7,
       8,
-      15,
       16
     ],
     "message_keywords": {
@@ -114,9 +118,10 @@
     "distinct_senders": 22,
     "label_counts": {
       "Groceries & Market": 17,
-      "Food & Drink": 3,
-      "Personal transfer": 2
+      "Food & Drink": 2,
+      "Personal transfer": 1
     },
+    "unlabeled": 2,
     "typical_amount_range": [
       60000,
       200000
@@ -136,8 +141,9 @@
     "distinct_senders": 16,
     "label_counts": {
       "Transport": 12,
-      "Personal transfer": 4
+      "Personal transfer": 3
     },
+    "unlabeled": 1,
     "typical_amount_range": [
       20000,
       60000
@@ -145,8 +151,7 @@
     "peak_hours": [
       7,
       8,
-      17,
-      18
+      17
     ],
     "message_keywords": {
       "xe": 5
@@ -159,6 +164,7 @@
       "Housing & Rent": 5,
       "Personal transfer": 1
     },
+    "unlabeled": 0,
     "typical_amount_range": [
       1800000,
       2500000
@@ -175,8 +181,9 @@
     "receiver_id": "BANK_970415_0912345678",
     "distinct_senders": 3,
     "label_counts": {
-      "Personal transfer": 3
+      "Personal transfer": 2
     },
+    "unlabeled": 1,
     "typical_amount_range": [
       50000,
       300000
@@ -195,6 +202,7 @@
       "Personal transfer": 3,
       "Food & Drink": 1
     },
+    "unlabeled": 0,
     "typical_amount_range": [
       50000,
       200000
@@ -212,6 +220,7 @@
     "label_counts": {
       "Personal transfer": 2
     },
+    "unlabeled": 0,
     "typical_amount_range": [
       100000,
       500000
@@ -228,6 +237,7 @@
     "label_counts": {
       "Personal transfer": 1
     },
+    "unlabeled": 0,
     "typical_amount_range": [
       200000,
       200000
@@ -244,6 +254,7 @@
       "Personal transfer": 2,
       "Shopping": 1
     },
+    "unlabeled": 0,
     "typical_amount_range": [
       50000,
       300000
@@ -258,10 +269,10 @@
     "receiver_id": "BANK_970422_0900555111",
     "distinct_senders": 5,
     "label_counts": {
-      "Food & Drink": 2,
-      "Personal transfer": 2,
-      "Groceries & Market": 1
+      "Food & Drink": 3,
+      "Personal transfer": 1
     },
+    "unlabeled": 1,
     "typical_amount_range": [
       30000,
       120000
@@ -278,10 +289,10 @@
     "receiver_id": "BANK_970441_0900666222",
     "distinct_senders": 3,
     "label_counts": {
-      "Personal transfer": 1,
       "Food & Drink": 1,
-      "Transport": 1
+      "Personal transfer": 1
     },
+    "unlabeled": 1,
     "typical_amount_range": [
       40000,
       100000
