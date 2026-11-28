@@ -8,16 +8,16 @@ Items marked **[Confirm]** are my suggestions that your teammate has not approve
 
 ## 0. Decisions this workflow is built on
 
-| # | Decision | Where it matters |
-|---|---|---|
-| 1 | The AI step is a small loop: the AI can call a tool (`get_receiver_fingerprint`) before it answers | Flow 1, step 5 |
-| 2 | The AI gets a **small first package**. The detailed receiver pattern is fetched only when the AI asks | Flow 1, steps 4 and 5 |
-| 3 | **AI is the core.** Without AI the product does not work | Run modes, failure handling |
-| 4 | No AI = recorded answers for the 4 seeded scenarios only. Custom transactions show "AI required". No rules-based fallback labels | Run modes |
-| 5 | The demo user starts with about 30 to 50 fake, already-labeled transactions (one month). New ones are added one by one | Both flows |
-| 6 | Advice runs once on first load, then only when the user clicks "Get advice" | Flow 2 |
-| 7 | The AI picks 2 to 3 vouchers by ID from a fixed mock list. Code rejects any ID not on the list | Flow 2 |
-| 8 | New field: the user's monthly income | Flow 2 |
+| #   | Decision                                                                                                                         | Where it matters            |
+| --- | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| 1   | The AI step is a small loop: the AI can call a tool (`get_receiver_fingerprint`) before it answers                               | Flow 1, step 5              |
+| 2   | The AI gets a **small first package**. The detailed receiver pattern is fetched only when the AI asks                            | Flow 1, steps 4 and 5       |
+| 3   | **AI is the core.** Without AI the product does not work                                                                         | Run modes, failure handling |
+| 4   | No AI = recorded answers for the 4 seeded scenarios only. Custom transactions show "AI required". No rules-based fallback labels | Run modes                   |
+| 5   | The demo user starts with about 30 to 50 fake, already-labeled transactions (one month). New ones are added one by one           | Both flows                  |
+| 6   | Advice runs once on first load, then only when the user clicks "Get advice"                                                      | Flow 2                      |
+| 7   | The AI picks 2 to 3 vouchers by ID from a fixed mock list. Code rejects any ID not on the list                                   | Flow 2                      |
+| 8   | New field: the user's monthly income                                                                                             | Flow 2                      |
 
 ---
 
@@ -85,21 +85,21 @@ flowchart TD
 
 ### 2.2 Step table
 
-| # | Step | Done by | Input | Output | If it fails |
-|---|---|---|---|---|---|
-| 0 | Receive | API: `POST /transactions` | JSON from a scenario button or the custom form | Raw transaction | Reject with error |
-| 1 | Validate and clean | Code | Raw transaction | Clean transaction. Sender name removed from `transfer_message` | Missing amount, time or receiver: reject |
-| 2 | Router | Code | `merchant_id`, `mcc` | Category from the merchant or MCC table, or "no match" | No match: go to step 3 |
-| 3 | User memory | Code | `receiver_id` + user | Saved category or "none" | None: go to step 4 |
-| 4 | Evidence builder (small package) | Code | Clean transaction + user history | Small first package (see 2.3) | Missing history: send `null` fields |
-| 5a | AI call 1 | **AI** | Small package + tool definition | Either a final answer, or a request to call the tool | Timeout: retry once, then see 2.6 |
-| 5b | Tool call | Code runs it for the AI | `receiver_id` | Receiver fingerprint, aggregates only (see 2.4) | No crowd data: `distinct_senders = 0` |
-| 5b | AI call 2 | **AI** | Small package + fingerprint | Final answer | Same as 5a |
-| 5c | Validate AI answer | Code | AI JSON | Valid answer | Bad schema or category not in `allowed_categories`: retry once, then see 2.6 |
-| 6 | Policy guard | Code | AI answer + crowd numbers | Final level and action | Not applicable |
-| 7 | Save | Code | Labeled transaction | Row saved, side panel updated. Flow 2 picks it up on its next query | Clear error |
-| 8 | Tap prompt | UI + code | Unclassified items, sorted by receivers with most senders | `USER_LABELED`, saved to user memory | User can skip |
-| 9 | Aging | Code (scheduled, with a demo "fast-forward" button) | Unclassified older than N days | Category = Other | Not applicable |
+| #   | Step                             | Done by                                             | Input                                                      | Output                                                                      | If it fails                                                                  |
+| --- | -------------------------------- | --------------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 0   | Receive                          | API: `POST /transactions`                           | JSON from a scenario button or the custom form             | Raw transaction                                                             | Reject with error                                                            |
+| 1   | Validate and clean               | Code                                                | Raw transaction                                            | Clean transaction. Sender name removed from `transfer_message`              | Missing amount, time or receiver: reject                                     |
+| 2   | Router                           | Code                                                | `merchant_id`, `mcc`                                       | Category from the merchant or MCC table, or "no match"                      | No match: go to step 3                                                       |
+| 3   | User memory                      | Code                                                | `receiver_id` + user                                       | Saved category or "none"                                                    | None: go to step 4                                                           |
+| 4   | Evidence builder (small package) | Code                                                | Clean transaction + user history                           | Small first package (see 2.3)                                               | Missing history: send `null` fields                                          |
+| 5a  | AI call 1                        | **AI**                                              | Small package + tool definition                            | Either a final answer, or a request to call the tool                        | Timeout: retry once, then see 2.6                                            |
+| 5b  | Tool call                        | Code runs it for the AI                             | `receiver_id` from the bundle (code side, not from the AI) | Receiver fingerprint, aggregates only (see 2.4) | No crowd data: `distinct_senders = 0`                                        |
+| 5b  | AI call 2                        | **AI**                                              | Small package + fingerprint                                | Final answer                                                                | Same as 5a                                                                   |
+| 5c  | Validate AI answer               | Code                                                | AI JSON                                                    | Valid answer                                                                | Bad schema or category not in `allowed_categories`: retry once, then see 2.6 |
+| 6   | Policy guard                     | Code                                                | AI answer + crowd numbers                                  | Final level and action                                                      | Not applicable                                                               |
+| 7   | Save                             | Code                                                | Labeled transaction                                        | Row saved, side panel updated. Flow 2 picks it up on its next query         | Clear error                                                                  |
+| 8   | Tap prompt                       | UI + code                                           | Unclassified items, sorted by receivers with most senders  | `USER_LABELED`, saved to user memory                                        | User can skip                                                                |
+| 9   | Aging                            | Code (scheduled, with a demo "fast-forward" button) | Unclassified older than N days                             | Category = Other                                                            | Not applicable                                                               |
 
 ### 2.3 Example: the small first package (step 4 output)
 
@@ -134,7 +134,7 @@ Changes from `agent_io_spec.md`:
 
 ### 2.4 The tool: `get_receiver_fingerprint`
 
-The AI can call this tool only with a `receiver_id`. The id comes from our code, never from text inside the message or name (protection against prompt injection).
+The AI-facing tool takes **no arguments**. When the AI asks for it, the engine runs `get_receiver_fingerprint` with the `receiver_id` it already holds in the bundle (code side only). The AI cannot name a receiver, so text inside a message or name cannot change which receiver is looked up (protection against prompt injection).
 
 Tool result (aggregates only, never raw messages from other users):
 
@@ -180,14 +180,14 @@ The AI proposes a category and a score. It does **not** set the final action. Th
 
 Draft values, to be tuned on the seeded data:
 
-| Rule | Effect |
-|---|---|
-| Score 0.80 or above | Candidate for High |
-| Score 0.50 to 0.79 | Medium: `SUGGESTED` |
-| Score below 0.50 | Low: `UNCLASSIFIED`, category forced to `null` |
-| `distinct_senders` below 15 | Cannot be High |
-| Crowd agreement below 60% | Cannot be High |
-| Conflicting crowd labels | Capped at Low |
+| Rule                        | Effect                                         |
+| --------------------------- | ---------------------------------------------- |
+| Score 0.80 or above         | Candidate for High                             |
+| Score 0.50 to 0.79          | Medium: `SUGGESTED`                            |
+| Score below 0.50            | Low: `UNCLASSIFIED`, category forced to `null` |
+| `distinct_senders` below 15 | Cannot be High                                 |
+| Crowd agreement below 60%   | Cannot be High                                 |
+| Conflicting crowd labels    | Capped at Low                                  |
 
 **[Confirm] The guard reads the crowd numbers from the database itself**, not from the AI's answer. Reason: the AI may answer without calling the tool, but the guard still needs `distinct_senders` and agreement to apply its rules.
 
@@ -216,15 +216,15 @@ flowchart TD
 
 ### 3.2 Step table
 
-| # | Step | Done by | Input | Output | If it fails |
-|---|---|---|---|---|---|
-| 0 | Trigger | UI | First load, or the "Get advice" button | Request to `POST /advice` | Not applicable |
-| 1 | Data check | Code | Labeled transactions this month, share of `UNCLASSIFIED` | Go or "not enough data yet" | Too few labeled transactions (N, to decide) or too many unclassified: show the message and no advice |
-| 2 | Category table | Code | Labeled transactions this month, `monthly_income` | One row per category: total spent, share of spending, share of income, change vs last month | Unclassified items counted under Other, with a note "N unclassified" |
-| 3 | Summary builder | Code | Category table + voucher list | Compact summary for the AI (see 3.3) | Not applicable |
-| 4 | AI call | **AI** | Summary + voucher list | Advice and voucher picks (see 3.4) | Timeout: retry once, then "AI unavailable, try again" |
-| 5 | Validate | Code | AI JSON | Valid answer | Retry once, else show the table without advice |
-| 6 | Render | UI | Table + validated advice + vouchers | Screen blocks: table, advice, vouchers | Not applicable |
+| #   | Step            | Done by | Input                                                    | Output                                                                                      | If it fails                                                                                          |
+| --- | --------------- | ------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| 0   | Trigger         | UI      | First load, or the "Get advice" button                   | Request to `POST /advice`                                                                   | Not applicable                                                                                       |
+| 1   | Data check      | Code    | Labeled transactions this month, share of `UNCLASSIFIED` | Go or "not enough data yet"                                                                 | Too few labeled transactions (N, to decide) or too many unclassified: show the message and no advice |
+| 2   | Category table  | Code    | Labeled transactions this month, `monthly_income`        | One row per category: total spent, share of spending, share of income, change vs last month | Unclassified items counted under Other, with a note "N unclassified"                                 |
+| 3   | Summary builder | Code    | Category table + voucher list                            | Compact summary for the AI (see 3.3)                                                        | Not applicable                                                                                       |
+| 4   | AI call         | **AI**  | Summary + voucher list                                   | Advice and voucher picks (see 3.4)                                                          | Timeout: retry once, then "AI unavailable, try again"                                                |
+| 5   | Validate        | Code    | AI JSON                                                  | Valid answer                                                                                | Retry once, else show the table without advice                                                       |
+| 6   | Render          | UI      | Table + validated advice + vouchers                      | Screen blocks: table, advice, vouchers                                                      | Not applicable                                                                                       |
 
 ### 3.3 Example: summary sent to the AI (step 3 output)
 
@@ -265,26 +265,26 @@ flowchart TD
 
 ### 3.5 Step 5: what code checks
 
-| Check | Why |
-|---|---|
+| Check                                                          | Why                                            |
+| -------------------------------------------------------------- | ---------------------------------------------- |
 | `cut_categories` are in the allowed list and `cuttable = true` | The AI cannot invent categories or target rent |
-| Every number in the text matches the summary | The AI cannot make up figures |
-| Every `voucher_id` exists in the voucher list | The AI cannot invent vouchers |
-| At most 3 vouchers | Keeps the block short |
+| Every number in the text matches the summary                   | The AI cannot make up figures                  |
+| Every `voucher_id` exists in the voucher list                  | The AI cannot invent vouchers                  |
+| At most 3 vouchers                                             | Keeps the block short                          |
 
 ---
 
 ## 4. Data stored
 
-| Store | Content | Used by |
-|---|---|---|
-| `users` | `user_id`, `monthly_income`, session id | Flow 2 |
-| `transactions` | Clean transaction, category, state, source (lookup / memory / AI / user), confidence, AI answer JSON, tool-call log | Both flows, side panel |
-| `merchants`, `mcc_table` | Mock lookup tables | Flow 1, step 2 |
-| `user_memory` | `receiver_id` to saved category, per user | Flow 1, step 3 |
-| `crowd_aggregates` | Per receiver: senders, label distribution, amounts, hours, keywords (seeded) | Tool and guard |
-| `vouchers` | Mock list: id, category, title | Flow 2 |
-| `recorded_answers` | Saved AI answers for the 4 seeded scenarios | Replay mode |
+| Store                    | Content                                                                                                             | Used by                |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `users`                  | `user_id`, `monthly_income`, session id                                                                             | Flow 2                 |
+| `transactions`           | Clean transaction, category, state, source (lookup / memory / AI / user), confidence, AI answer JSON, tool-call log | Both flows, side panel |
+| `merchants`, `mcc_table` | Mock lookup tables                                                                                                  | Flow 1, step 2         |
+| `user_memory`            | `receiver_id` to saved category, per user                                                                           | Flow 1, step 3         |
+| `crowd_aggregates`       | Per receiver: senders, label distribution, amounts, hours, keywords (seeded)                                        | Tool and guard         |
+| `vouchers`               | Mock list: id, category, title                                                                                      | Flow 2                 |
+| `recorded_answers`       | Saved AI answers for the 4 seeded scenarios                                                                         | Replay mode            |
 
 Each browser session gets its own copy of `users`, `transactions` and `user_memory`, with a Reset button.
 
@@ -292,9 +292,9 @@ Each browser session gets its own copy of `users`, `transactions` and `user_memo
 
 ## 5. Run modes
 
-| Mode | Who | AI behavior |
-|---|---|---|
-| `live` | Hosted demo | Real AI. Key stays on the server, with rate limit and spend cap |
+| Mode     | Who                               | AI behavior                                                                                                     |
+| -------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `live`   | Hosted demo                       | Real AI. Key stays on the server, with rate limit and spend cap                                                 |
 | `replay` | Judge running the zip with no key | Recorded AI answers for the 4 seeded scenarios. Anything else shows "AI required". The README says this plainly |
 
 Recorded answers are produced by running the real AI once per scenario with a real key before submission.
